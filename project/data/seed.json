@@ -1,0 +1,1566 @@
+{
+ "_note": "Placeholder seed. Replace with your export — the app reads only this shape. Coordinates are city centroids. _me is the signed-in profile id (p25 = @GrabCom; its city and domains d23–d25 are placeholders until real ones are supplied).",
+ "people": [
+  {
+   "id": "p1",
+   "type": "investor",
+   "name": "Halvard Ness",
+   "org": "Fjord Names",
+   "city": "Oslo",
+   "country": "NO",
+   "lat": 59.913,
+   "lng": 10.752,
+   "tlds": [
+    ".com",
+    ".ai",
+    ".no"
+   ],
+   "portfolio": 1240,
+   "focus": [
+    "one-word .com",
+    "nordic brandables"
+   ],
+   "deals12m": 31,
+   "verified": true,
+   "sponsored": true,
+   "tier": "attested",
+   "xHandle": "halvardnames",
+   "joined": 2022
+  },
+  {
+   "id": "p2",
+   "type": "broker",
+   "name": "Marisol Vega",
+   "org": "Vega Domain Brokerage",
+   "city": "Austin",
+   "country": "US",
+   "lat": 30.267,
+   "lng": -97.743,
+   "tlds": [
+    ".com",
+    ".io"
+   ],
+   "portfolio": 0,
+   "focus": [
+    "enterprise acquisitions",
+    "stealth buyer representation"
+   ],
+   "deals12m": 58,
+   "verified": true,
+   "sponsored": false,
+   "tier": "attested",
+   "xHandle": "marisolvega",
+   "joined": 2019
+  },
+  {
+   "id": "p3",
+   "type": "investor",
+   "name": "Tobias Reinholt",
+   "org": "",
+   "city": "Berlin",
+   "country": "DE",
+   "lat": 52.52,
+   "lng": 13.405,
+   "tlds": [
+    ".de",
+    ".com",
+    ".io"
+   ],
+   "portfolio": 680,
+   "focus": [
+    "fintech keywords",
+    "two-letter .de"
+   ],
+   "deals12m": 12,
+   "verified": true,
+   "sponsored": false,
+   "tier": "dns",
+   "xHandle": "treinholt",
+   "joined": 2024
+  },
+  {
+   "id": "p4",
+   "type": "investor",
+   "name": "Priya Raghunathan",
+   "org": "Lotus Holdings",
+   "city": "Bengaluru",
+   "country": "IN",
+   "lat": 12.972,
+   "lng": 77.594,
+   "tlds": [
+    ".com",
+    ".ai",
+    ".in"
+   ],
+   "portfolio": 3100,
+   "focus": [
+    "AI brandables",
+    "SaaS verbs"
+   ],
+   "deals12m": 44,
+   "verified": true,
+   "sponsored": true,
+   "tier": "attested",
+   "xHandle": "priyaholds",
+   "joined": 2021
+  },
+  {
+   "id": "p5",
+   "type": "broker",
+   "name": "Callum Whitford",
+   "org": "Whitford & Lane",
+   "city": "London",
+   "country": "GB",
+   "lat": 51.507,
+   "lng": -0.128,
+   "tlds": [
+    ".com",
+    ".co.uk",
+    ".ai"
+   ],
+   "portfolio": 0,
+   "focus": [
+    "premium .com",
+    "family-office sellers"
+   ],
+   "deals12m": 71,
+   "verified": true,
+   "sponsored": false,
+   "tier": "attested",
+   "xHandle": "whitfordlane",
+   "joined": 2018
+  },
+  {
+   "id": "p6",
+   "type": "investor",
+   "name": "Yuki Hamasaki",
+   "org": "",
+   "city": "Tokyo",
+   "country": "JP",
+   "lat": 35.676,
+   "lng": 139.65,
+   "tlds": [
+    ".com",
+    ".jp",
+    ".io"
+   ],
+   "portfolio": 410,
+   "focus": [
+    "short .com",
+    "gaming"
+   ],
+   "deals12m": 9,
+   "verified": false,
+   "sponsored": false,
+   "tier": "x",
+   "xHandle": "yukihama",
+   "joined": 2024
+  },
+  {
+   "id": "p7",
+   "type": "investor",
+   "name": "Danilo Ferreira",
+   "org": "Atlântico Domains",
+   "city": "Lisbon",
+   "country": "PT",
+   "lat": 38.722,
+   "lng": -9.139,
+   "tlds": [
+    ".com",
+    ".pt",
+    ".io"
+   ],
+   "portfolio": 920,
+   "focus": [
+    "travel",
+    "geo .com"
+   ],
+   "deals12m": 18,
+   "verified": true,
+   "sponsored": false,
+   "tier": "dns",
+   "xHandle": "atlanticonames",
+   "joined": 2023
+  },
+  {
+   "id": "p8",
+   "type": "broker",
+   "name": "Nadia Okonkwo",
+   "org": "Meridian Names",
+   "city": "Lagos",
+   "country": "NG",
+   "lat": 6.524,
+   "lng": 3.379,
+   "tlds": [
+    ".com",
+    ".ng",
+    ".africa"
+   ],
+   "portfolio": 0,
+   "focus": [
+    "African markets",
+    "fintech buyers"
+   ],
+   "deals12m": 22,
+   "verified": true,
+   "sponsored": false,
+   "tier": "dns",
+   "xHandle": "nadiaok",
+   "joined": 2023
+  },
+  {
+   "id": "p9",
+   "type": "investor",
+   "name": "Erik Lindqvist",
+   "org": "",
+   "city": "Stockholm",
+   "country": "SE",
+   "lat": 59.329,
+   "lng": 18.069,
+   "tlds": [
+    ".com",
+    ".se",
+    ".ai"
+   ],
+   "portfolio": 560,
+   "focus": [
+    "climate tech",
+    "nordic brandables"
+   ],
+   "deals12m": 14,
+   "verified": true,
+   "sponsored": false,
+   "tier": "dns",
+   "xHandle": "eriklq",
+   "joined": 2024
+  },
+  {
+   "id": "p10",
+   "type": "investor",
+   "name": "Chen Wei",
+   "org": "Harbour Portfolio",
+   "city": "Singapore",
+   "country": "SG",
+   "lat": 1.352,
+   "lng": 103.82,
+   "tlds": [
+    ".com",
+    ".sg",
+    ".ai",
+    ".io"
+   ],
+   "portfolio": 2200,
+   "focus": [
+    "crypto keywords",
+    "three-letter .com"
+   ],
+   "deals12m": 37,
+   "verified": true,
+   "sponsored": true,
+   "tier": "attested",
+   "xHandle": "harbourpf",
+   "joined": 2021
+  },
+  {
+   "id": "p11",
+   "type": "broker",
+   "name": "Isabela Rocha",
+   "org": "Rocha Brokerage",
+   "city": "São Paulo",
+   "country": "BR",
+   "lat": -23.55,
+   "lng": -46.633,
+   "tlds": [
+    ".com",
+    ".com.br"
+   ],
+   "portfolio": 0,
+   "focus": [
+    "LatAm startups",
+    "Portuguese keywords"
+   ],
+   "deals12m": 29,
+   "verified": true,
+   "sponsored": false,
+   "tier": "dns",
+   "xHandle": "rochabroker",
+   "joined": 2022
+  },
+  {
+   "id": "p12",
+   "type": "investor",
+   "name": "Samuel Adeyemi",
+   "org": "",
+   "city": "Toronto",
+   "country": "CA",
+   "lat": 43.653,
+   "lng": -79.383,
+   "tlds": [
+    ".com",
+    ".ca",
+    ".ai"
+   ],
+   "portfolio": 780,
+   "focus": [
+    "healthtech",
+    "one-word .com"
+   ],
+   "deals12m": 16,
+   "verified": true,
+   "sponsored": false,
+   "tier": "dns",
+   "xHandle": "samadeyemi",
+   "joined": 2024
+  },
+  {
+   "id": "p13",
+   "type": "investor",
+   "name": "Lena Hartmann",
+   "org": "Hartmann Digital",
+   "city": "Zürich",
+   "country": "CH",
+   "lat": 47.377,
+   "lng": 8.541,
+   "tlds": [
+    ".com",
+    ".ch",
+    ".swiss"
+   ],
+   "portfolio": 340,
+   "focus": [
+    "finance",
+    "luxury brandables"
+   ],
+   "deals12m": 7,
+   "verified": true,
+   "sponsored": false,
+   "tier": "x",
+   "xHandle": "hartmanndigital",
+   "joined": 2025
+  },
+  {
+   "id": "p14",
+   "type": "broker",
+   "name": "Omar Haddad",
+   "org": "Gulf Names",
+   "city": "Dubai",
+   "country": "AE",
+   "lat": 25.204,
+   "lng": 55.27,
+   "tlds": [
+    ".com",
+    ".ae"
+   ],
+   "portfolio": 0,
+   "focus": [
+    "GCC enterprises",
+    "real estate"
+   ],
+   "deals12m": 33,
+   "verified": true,
+   "sponsored": true,
+   "tier": "attested",
+   "xHandle": "gulfnames",
+   "joined": 2022
+  },
+  {
+   "id": "p15",
+   "type": "investor",
+   "name": "Grace Mwangi",
+   "org": "",
+   "city": "Nairobi",
+   "country": "KE",
+   "lat": -1.292,
+   "lng": 36.822,
+   "tlds": [
+    ".com",
+    ".ke",
+    ".africa"
+   ],
+   "portfolio": 210,
+   "focus": [
+    "mobile money",
+    "agritech"
+   ],
+   "deals12m": 5,
+   "verified": false,
+   "sponsored": false,
+   "tier": null,
+   "xHandle": null,
+   "joined": 2025
+  },
+  {
+   "id": "p16",
+   "type": "investor",
+   "name": "Jonah Blackwood",
+   "org": "Blackwood Names",
+   "city": "Denver",
+   "country": "US",
+   "lat": 39.739,
+   "lng": -104.99,
+   "tlds": [
+    ".com",
+    ".io"
+   ],
+   "portfolio": 1900,
+   "focus": [
+    "outdoor",
+    "SaaS verbs"
+   ],
+   "deals12m": 26,
+   "verified": true,
+   "sponsored": false,
+   "tier": "dns",
+   "xHandle": "blackwoodnames",
+   "joined": 2023
+  },
+  {
+   "id": "p17",
+   "type": "broker",
+   "name": "Aoife Brennan",
+   "org": "",
+   "city": "Dublin",
+   "country": "IE",
+   "lat": 53.349,
+   "lng": -6.26,
+   "tlds": [
+    ".com",
+    ".ie",
+    ".ai"
+   ],
+   "portfolio": 0,
+   "focus": [
+    "US tech expanding to EU"
+   ],
+   "deals12m": 19,
+   "verified": true,
+   "sponsored": false,
+   "tier": "x",
+   "xHandle": "aoifeb",
+   "joined": 2023
+  },
+  {
+   "id": "p18",
+   "type": "investor",
+   "name": "Mateo Álvarez",
+   "org": "",
+   "city": "Mexico City",
+   "country": "MX",
+   "lat": 19.433,
+   "lng": -99.133,
+   "tlds": [
+    ".com",
+    ".mx"
+   ],
+   "portfolio": 450,
+   "focus": [
+    "Spanish keywords",
+    "fintech"
+   ],
+   "deals12m": 11,
+   "verified": true,
+   "sponsored": false,
+   "tier": "dns",
+   "xHandle": "mateoalv",
+   "joined": 2024
+  },
+  {
+   "id": "p19",
+   "type": "investor",
+   "name": "Hana Kowalczyk",
+   "org": "",
+   "city": "Warsaw",
+   "country": "PL",
+   "lat": 52.23,
+   "lng": 21.012,
+   "tlds": [
+    ".com",
+    ".pl",
+    ".io"
+   ],
+   "portfolio": 620,
+   "focus": [
+    "devtools",
+    "gaming"
+   ],
+   "deals12m": 13,
+   "verified": true,
+   "sponsored": false,
+   "tier": "dns",
+   "xHandle": "hanak",
+   "joined": 2024
+  },
+  {
+   "id": "p20",
+   "type": "broker",
+   "name": "Liam Carter",
+   "org": "Carter Names",
+   "city": "Sydney",
+   "country": "AU",
+   "lat": -33.869,
+   "lng": 151.209,
+   "tlds": [
+    ".com",
+    ".com.au",
+    ".ai"
+   ],
+   "portfolio": 0,
+   "focus": [
+    "APAC enterprise",
+    "mining & energy"
+   ],
+   "deals12m": 24,
+   "verified": true,
+   "sponsored": false,
+   "tier": "attested",
+   "xHandle": "carternames",
+   "joined": 2023
+  },
+  {
+   "id": "p21",
+   "type": "investor",
+   "name": "Ava Lindgren",
+   "org": "",
+   "city": "San Francisco",
+   "country": "US",
+   "lat": 37.775,
+   "lng": -122.419,
+   "tlds": [
+    ".com",
+    ".ai"
+   ],
+   "portfolio": 880,
+   "focus": [
+    "AI brandables",
+    "YC-stage buyers"
+   ],
+   "deals12m": 40,
+   "verified": true,
+   "sponsored": true,
+   "tier": "attested",
+   "xHandle": "avalindgren",
+   "joined": 2021
+  },
+  {
+   "id": "p22",
+   "type": "investor",
+   "name": "Rafael Souza",
+   "org": "",
+   "city": "New York",
+   "country": "US",
+   "lat": 40.713,
+   "lng": -74.006,
+   "tlds": [
+    ".com",
+    ".nyc"
+   ],
+   "portfolio": 1500,
+   "focus": [
+    "finance",
+    "media"
+   ],
+   "deals12m": 21,
+   "verified": true,
+   "sponsored": false,
+   "tier": "dns",
+   "xHandle": "rsouza",
+   "joined": 2023
+  },
+  {
+   "id": "p23",
+   "type": "investor",
+   "name": "Min-jun Park",
+   "org": "",
+   "city": "Seoul",
+   "country": "KR",
+   "lat": 37.567,
+   "lng": 126.978,
+   "tlds": [
+    ".com",
+    ".kr",
+    ".ai"
+   ],
+   "portfolio": 300,
+   "focus": [
+    "gaming",
+    "beauty"
+   ],
+   "deals12m": 8,
+   "verified": false,
+   "sponsored": false,
+   "tier": null,
+   "xHandle": null,
+   "joined": 2025
+  },
+  {
+   "id": "p24",
+   "type": "broker",
+   "name": "Sophie Marchand",
+   "org": "Marchand Conseil",
+   "city": "Paris",
+   "country": "FR",
+   "lat": 48.857,
+   "lng": 2.352,
+   "tlds": [
+    ".com",
+    ".fr",
+    ".paris"
+   ],
+   "portfolio": 0,
+   "focus": [
+    "luxury houses",
+    "French keywords"
+   ],
+   "deals12m": 27,
+   "verified": true,
+   "sponsored": false,
+   "tier": "dns",
+   "xHandle": "marchandconseil",
+   "joined": 2022
+  },
+  {
+   "id": "p25",
+   "type": "investor",
+   "name": "Grab Com",
+   "org": "",
+   "city": "Amsterdam",
+   "country": "NL",
+   "lat": 52.37,
+   "lng": 4.9,
+   "tlds": [
+    ".com",
+    ".io",
+    ".ai"
+   ],
+   "portfolio": 120,
+   "focus": [
+    "brandable .com",
+    "verb domains"
+   ],
+   "deals12m": 6,
+   "verified": true,
+   "sponsored": false,
+   "tier": "x",
+   "xHandle": "GrabCom",
+   "avatar": "https://unavatar.io/x/grabcom?fallback=false",
+   "joined": 2025,
+   "_placeholder": "city, portfolio and focus are placeholders — replace with real values"
+  }
+ ],
+ "companies": [
+  {
+   "id": "c1",
+   "name": "Tidewell",
+   "city": "Boston",
+   "country": "US",
+   "lat": 42.36,
+   "lng": -71.059,
+   "industry": "Healthtech",
+   "stage": "Series B",
+   "employees": 140,
+   "currentDomain": "tidewellhealth.com",
+   "wants": [
+    "tidewell.com"
+   ],
+   "fundingUSD": 46000000,
+   "keywords": [
+    "health",
+    "care",
+    "well"
+   ]
+  },
+  {
+   "id": "c2",
+   "name": "Lumen Ledger",
+   "city": "London",
+   "country": "GB",
+   "lat": 51.515,
+   "lng": -0.09,
+   "industry": "Fintech",
+   "stage": "Series A",
+   "employees": 60,
+   "currentDomain": "lumenledger.io",
+   "wants": [
+    "lumen.com",
+    "ledger.ai"
+   ],
+   "fundingUSD": 18000000,
+   "keywords": [
+    "ledger",
+    "pay",
+    "finance"
+   ]
+  },
+  {
+   "id": "c3",
+   "name": "Orbita Robotics",
+   "city": "Munich",
+   "country": "DE",
+   "lat": 48.135,
+   "lng": 11.582,
+   "industry": "Robotics",
+   "stage": "Seed",
+   "employees": 22,
+   "currentDomain": "orbita-robotics.de",
+   "wants": [
+    "orbita.com"
+   ],
+   "fundingUSD": 5000000,
+   "keywords": [
+    "robot",
+    "orbit",
+    "automation"
+   ]
+  },
+  {
+   "id": "c4",
+   "name": "Verdant Grid",
+   "city": "Stockholm",
+   "country": "SE",
+   "lat": 59.334,
+   "lng": 18.063,
+   "industry": "Climate tech",
+   "stage": "Series A",
+   "employees": 48,
+   "currentDomain": "verdantgrid.se",
+   "wants": [
+    "verdant.com",
+    "grid.ai"
+   ],
+   "fundingUSD": 22000000,
+   "keywords": [
+    "energy",
+    "solar",
+    "grid",
+    "climate"
+   ]
+  },
+  {
+   "id": "c5",
+   "name": "Kōra Skincare",
+   "city": "Seoul",
+   "country": "KR",
+   "lat": 37.57,
+   "lng": 126.99,
+   "industry": "Beauty",
+   "stage": "Bootstrapped",
+   "employees": 35,
+   "currentDomain": "koraskin.co.kr",
+   "wants": [
+    "kora.com"
+   ],
+   "fundingUSD": 0,
+   "keywords": [
+    "skin",
+    "beauty",
+    "glow"
+   ]
+  },
+  {
+   "id": "c6",
+   "name": "Paylane Africa",
+   "city": "Lagos",
+   "country": "NG",
+   "lat": 6.45,
+   "lng": 3.4,
+   "industry": "Fintech",
+   "stage": "Series A",
+   "employees": 90,
+   "currentDomain": "paylane.africa",
+   "wants": [
+    "paylane.com",
+    "pay.ng"
+   ],
+   "fundingUSD": 14000000,
+   "keywords": [
+    "pay",
+    "money",
+    "mobile"
+   ]
+  },
+  {
+   "id": "c7",
+   "name": "Helix Agents",
+   "city": "San Francisco",
+   "country": "US",
+   "lat": 37.79,
+   "lng": -122.4,
+   "industry": "AI",
+   "stage": "Series B",
+   "employees": 110,
+   "currentDomain": "helixagents.ai",
+   "wants": [
+    "helix.ai",
+    "agents.com"
+   ],
+   "fundingUSD": 65000000,
+   "keywords": [
+    "agent",
+    "ai",
+    "assistant"
+   ]
+  },
+  {
+   "id": "c8",
+   "name": "Saltmarsh Travel",
+   "city": "Lisbon",
+   "country": "PT",
+   "lat": 38.71,
+   "lng": -9.15,
+   "industry": "Travel",
+   "stage": "Seed",
+   "employees": 18,
+   "currentDomain": "saltmarshtravel.com",
+   "wants": [
+    "saltmarsh.com",
+    "stay.pt"
+   ],
+   "fundingUSD": 3500000,
+   "keywords": [
+    "travel",
+    "stay",
+    "trip",
+    "coast"
+   ]
+  },
+  {
+   "id": "c9",
+   "name": "Quartz Capital",
+   "city": "Zürich",
+   "country": "CH",
+   "lat": 47.37,
+   "lng": 8.55,
+   "industry": "Finance",
+   "stage": "Established",
+   "employees": 210,
+   "currentDomain": "quartz-capital.ch",
+   "wants": [
+    "quartz.com"
+   ],
+   "fundingUSD": 0,
+   "keywords": [
+    "capital",
+    "wealth",
+    "invest"
+   ]
+  },
+  {
+   "id": "c10",
+   "name": "Nimbus Freight",
+   "city": "Singapore",
+   "country": "SG",
+   "lat": 1.29,
+   "lng": 103.85,
+   "industry": "Logistics",
+   "stage": "Series C",
+   "employees": 380,
+   "currentDomain": "nimbusfreight.com",
+   "wants": [
+    "nimbus.com",
+    "freight.ai"
+   ],
+   "fundingUSD": 120000000,
+   "keywords": [
+    "freight",
+    "ship",
+    "cargo",
+    "logistics"
+   ]
+  },
+  {
+   "id": "c11",
+   "name": "Fable Studio",
+   "city": "Toronto",
+   "country": "CA",
+   "lat": 43.66,
+   "lng": -79.39,
+   "industry": "Gaming",
+   "stage": "Series A",
+   "employees": 55,
+   "currentDomain": "fablestudio.games",
+   "wants": [
+    "fable.com",
+    "play.ca"
+   ],
+   "fundingUSD": 12000000,
+   "keywords": [
+    "game",
+    "play",
+    "story"
+   ]
+  },
+  {
+   "id": "c12",
+   "name": "Cedro Agro",
+   "city": "São Paulo",
+   "country": "BR",
+   "lat": -23.56,
+   "lng": -46.65,
+   "industry": "Agritech",
+   "stage": "Series A",
+   "employees": 70,
+   "currentDomain": "cedroagro.com.br",
+   "wants": [
+    "cedro.com",
+    "agro.ai"
+   ],
+   "fundingUSD": 9000000,
+   "keywords": [
+    "farm",
+    "agro",
+    "crop"
+   ]
+  },
+  {
+   "id": "c13",
+   "name": "Mesa Outdoor Co.",
+   "city": "Denver",
+   "country": "US",
+   "lat": 39.75,
+   "lng": -105,
+   "industry": "Consumer",
+   "stage": "Bootstrapped",
+   "employees": 40,
+   "currentDomain": "mesaoutdoorco.com",
+   "wants": [
+    "mesa.com",
+    "trail.com"
+   ],
+   "fundingUSD": 0,
+   "keywords": [
+    "trail",
+    "outdoor",
+    "gear",
+    "hike"
+   ]
+  },
+  {
+   "id": "c14",
+   "name": "Dune Properties",
+   "city": "Dubai",
+   "country": "AE",
+   "lat": 25.2,
+   "lng": 55.28,
+   "industry": "Real estate",
+   "stage": "Established",
+   "employees": 160,
+   "currentDomain": "duneproperties.ae",
+   "wants": [
+    "dune.com",
+    "villa.ae"
+   ],
+   "fundingUSD": 0,
+   "keywords": [
+    "property",
+    "villa",
+    "estate"
+   ]
+  },
+  {
+   "id": "c15",
+   "name": "Sora Pay",
+   "city": "Tokyo",
+   "country": "JP",
+   "lat": 35.68,
+   "lng": 139.76,
+   "industry": "Fintech",
+   "stage": "Series B",
+   "employees": 130,
+   "currentDomain": "sorapay.jp",
+   "wants": [
+    "sora.com",
+    "pay.jp"
+   ],
+   "fundingUSD": 40000000,
+   "keywords": [
+    "pay",
+    "wallet",
+    "money"
+   ]
+  },
+  {
+   "id": "c16",
+   "name": "Brightline Learning",
+   "city": "Austin",
+   "country": "US",
+   "lat": 30.28,
+   "lng": -97.73,
+   "industry": "Edtech",
+   "stage": "Seed",
+   "employees": 25,
+   "currentDomain": "brightlinelearning.com",
+   "wants": [
+    "brightline.com",
+    "learn.ai"
+   ],
+   "fundingUSD": 4000000,
+   "keywords": [
+    "learn",
+    "teach",
+    "course"
+   ]
+  }
+ ],
+ "domains": [
+  {
+   "id": "d1",
+   "name": "tidewell.com",
+   "ownerId": "p12",
+   "askingUSD": 48000,
+   "category": "Health",
+   "status": "listed",
+   "keywords": [
+    "tide",
+    "well",
+    "health"
+   ]
+  },
+  {
+   "id": "d2",
+   "name": "lumen.com",
+   "ownerId": "p22",
+   "askingUSD": 1250000,
+   "category": "One-word",
+   "status": "make-offer",
+   "keywords": [
+    "lumen",
+    "light",
+    "finance"
+   ]
+  },
+  {
+   "id": "d3",
+   "name": "orbita.com",
+   "ownerId": "p7",
+   "askingUSD": 95000,
+   "category": "Brandable",
+   "status": "listed",
+   "keywords": [
+    "orbit",
+    "robot",
+    "space"
+   ]
+  },
+  {
+   "id": "d4",
+   "name": "verdant.com",
+   "ownerId": "p9",
+   "askingUSD": 180000,
+   "category": "One-word",
+   "status": "listed",
+   "keywords": [
+    "green",
+    "climate",
+    "energy"
+   ]
+  },
+  {
+   "id": "d5",
+   "name": "kora.com",
+   "ownerId": "p6",
+   "askingUSD": 62000,
+   "category": "Brandable",
+   "status": "listed",
+   "keywords": [
+    "kora",
+    "beauty",
+    "skin"
+   ]
+  },
+  {
+   "id": "d6",
+   "name": "paylane.com",
+   "ownerId": "p8",
+   "askingUSD": 34000,
+   "category": "Fintech",
+   "status": "listed",
+   "keywords": [
+    "pay",
+    "lane",
+    "money"
+   ]
+  },
+  {
+   "id": "d7",
+   "name": "helix.ai",
+   "ownerId": "p21",
+   "askingUSD": 220000,
+   "category": "AI",
+   "status": "listed",
+   "keywords": [
+    "helix",
+    "ai",
+    "agent"
+   ]
+  },
+  {
+   "id": "d8",
+   "name": "agents.com",
+   "ownerId": "p4",
+   "askingUSD": 2400000,
+   "category": "One-word",
+   "status": "make-offer",
+   "keywords": [
+    "agent",
+    "ai",
+    "assistant"
+   ]
+  },
+  {
+   "id": "d9",
+   "name": "saltmarsh.com",
+   "ownerId": "p7",
+   "askingUSD": 15000,
+   "category": "Travel",
+   "status": "listed",
+   "keywords": [
+    "coast",
+    "travel",
+    "marsh"
+   ]
+  },
+  {
+   "id": "d10",
+   "name": "quartz.com",
+   "ownerId": "p13",
+   "askingUSD": 850000,
+   "category": "One-word",
+   "status": "make-offer",
+   "keywords": [
+    "quartz",
+    "capital",
+    "wealth"
+   ]
+  },
+  {
+   "id": "d11",
+   "name": "freight.ai",
+   "ownerId": "p10",
+   "askingUSD": 140000,
+   "category": "AI",
+   "status": "listed",
+   "keywords": [
+    "freight",
+    "ship",
+    "logistics"
+   ]
+  },
+  {
+   "id": "d12",
+   "name": "fable.com",
+   "ownerId": "p16",
+   "askingUSD": 390000,
+   "category": "One-word",
+   "status": "listed",
+   "keywords": [
+    "fable",
+    "story",
+    "game"
+   ]
+  },
+  {
+   "id": "d13",
+   "name": "cedro.com",
+   "ownerId": "p11",
+   "askingUSD": 28000,
+   "category": "Brandable",
+   "status": "listed",
+   "keywords": [
+    "cedro",
+    "farm",
+    "agro"
+   ]
+  },
+  {
+   "id": "d14",
+   "name": "trail.com",
+   "ownerId": "p16",
+   "askingUSD": 720000,
+   "category": "One-word",
+   "status": "make-offer",
+   "keywords": [
+    "trail",
+    "hike",
+    "outdoor"
+   ]
+  },
+  {
+   "id": "d15",
+   "name": "dune.com",
+   "ownerId": "p14",
+   "askingUSD": 1100000,
+   "category": "One-word",
+   "status": "make-offer",
+   "keywords": [
+    "dune",
+    "property",
+    "estate"
+   ]
+  },
+  {
+   "id": "d16",
+   "name": "sora.com",
+   "ownerId": "p6",
+   "askingUSD": 310000,
+   "category": "Brandable",
+   "status": "listed",
+   "keywords": [
+    "sora",
+    "sky",
+    "pay"
+   ]
+  },
+  {
+   "id": "d17",
+   "name": "brightline.com",
+   "ownerId": "p2",
+   "askingUSD": 76000,
+   "category": "Brandable",
+   "status": "listed",
+   "keywords": [
+    "bright",
+    "line",
+    "learn"
+   ]
+  },
+  {
+   "id": "d18",
+   "name": "learn.ai",
+   "ownerId": "p4",
+   "askingUSD": 260000,
+   "category": "AI",
+   "status": "listed",
+   "keywords": [
+    "learn",
+    "teach",
+    "course",
+    "ai"
+   ]
+  },
+  {
+   "id": "d19",
+   "name": "grid.ai",
+   "ownerId": "p9",
+   "askingUSD": 88000,
+   "category": "AI",
+   "status": "listed",
+   "keywords": [
+    "grid",
+    "energy",
+    "data"
+   ]
+  },
+  {
+   "id": "d20",
+   "name": "wallet.io",
+   "ownerId": "p3",
+   "askingUSD": 54000,
+   "category": "Fintech",
+   "status": "listed",
+   "keywords": [
+    "wallet",
+    "pay",
+    "money"
+   ]
+  },
+  {
+   "id": "d21",
+   "name": "nimbus.com",
+   "ownerId": "p10",
+   "askingUSD": 640000,
+   "category": "One-word",
+   "status": "sold",
+   "keywords": [
+    "nimbus",
+    "cloud",
+    "freight"
+   ]
+  },
+  {
+   "id": "d22",
+   "name": "glow.co",
+   "ownerId": "p23",
+   "askingUSD": 19000,
+   "category": "Beauty",
+   "status": "listed",
+   "keywords": [
+    "glow",
+    "skin",
+    "beauty"
+   ]
+  },
+  {
+   "id": "d23",
+   "name": "grabify.com",
+   "ownerId": "p25",
+   "askingUSD": 24000,
+   "category": "Brandable",
+   "status": "listed",
+   "keywords": [
+    "grab",
+    "fetch",
+    "delivery"
+   ]
+  },
+  {
+   "id": "d24",
+   "name": "grabbed.io",
+   "ownerId": "p25",
+   "askingUSD": 4500,
+   "category": "Brandable",
+   "status": "listed",
+   "keywords": [
+    "grab",
+    "capture",
+    "clip"
+   ]
+  },
+  {
+   "id": "d25",
+   "name": "grabber.ai",
+   "ownerId": "p25",
+   "askingUSD": 12000,
+   "category": "AI",
+   "status": "listed",
+   "keywords": [
+    "grab",
+    "agent",
+    "scrape",
+    "ai"
+   ]
+  }
+ ],
+ "events": [
+  {
+   "id": "e1",
+   "name": "NamesCon Global",
+   "city": "Austin",
+   "country": "US",
+   "lat": 30.26,
+   "lng": -97.75,
+   "date": "2027-02-03",
+   "kind": "Conference"
+  },
+  {
+   "id": "e2",
+   "name": "Domain Days Dubai",
+   "city": "Dubai",
+   "country": "AE",
+   "lat": 25.21,
+   "lng": 55.26,
+   "date": "2026-11-18",
+   "kind": "Conference"
+  },
+  {
+   "id": "e3",
+   "name": "Berlin Domainer Meetup",
+   "city": "Berlin",
+   "country": "DE",
+   "lat": 52.51,
+   "lng": 13.39,
+   "date": "2026-10-29",
+   "kind": "Meetup"
+  },
+  {
+   "id": "e4",
+   "name": "Singapore Names Forum",
+   "city": "Singapore",
+   "country": "SG",
+   "lat": 1.3,
+   "lng": 103.83,
+   "date": "2026-12-07",
+   "kind": "Forum"
+  },
+  {
+   "id": "e5",
+   "name": "London Brokers Dinner",
+   "city": "London",
+   "country": "GB",
+   "lat": 51.51,
+   "lng": -0.12,
+   "date": "2026-11-05",
+   "kind": "Dinner"
+  }
+ ],
+ "_me": "p25",
+ "offers": {
+  "d4": [
+   {
+    "bidderId": "c4",
+    "amount": 120000,
+    "max": 150000,
+    "at": "2026-10-08"
+   },
+   {
+    "bidderId": "p21",
+    "amount": 126000,
+    "max": 126000,
+    "at": "2026-10-10"
+   }
+  ],
+  "d7": [
+   {
+    "bidderId": "c7",
+    "amount": 160000,
+    "max": 200000,
+    "at": "2026-10-05"
+   }
+  ],
+  "d12": [
+   {
+    "bidderId": "p25",
+    "amount": 300000,
+    "max": 330000,
+    "at": "2026-10-09"
+   }
+  ],
+  "d14": [
+   {
+    "bidderId": "c13",
+    "amount": 400000,
+    "max": 450000,
+    "at": "2026-10-01"
+   },
+   {
+    "bidderId": "p25",
+    "amount": 420000,
+    "max": 480000,
+    "at": "2026-10-11"
+   }
+  ],
+  "d2": [
+   {
+    "bidderId": "c2",
+    "amount": 800000,
+    "max": 900000,
+    "at": "2026-09-30"
+   }
+  ],
+  "d17": [
+   {
+    "bidderId": "c16",
+    "amount": 52000,
+    "max": 60000,
+    "at": "2026-10-07"
+   }
+  ],
+  "d22": [
+   {
+    "bidderId": "c5",
+    "amount": 12000,
+    "max": 14000,
+    "at": "2026-10-10"
+   },
+   {
+    "bidderId": "p25",
+    "amount": 12600,
+    "max": 15000,
+    "at": "2026-10-11"
+   }
+  ],
+  "d23": [
+   {
+    "bidderId": "c16",
+    "amount": 9000,
+    "max": 12000,
+    "at": "2026-10-11"
+   }
+  ]
+ },
+ "auctions": {
+  "d4": {
+   "endsAt": "2026-10-15T18:00:00Z",
+   "reserve": 150000,
+   "softCloseMin": 5
+  },
+  "d14": {
+   "endsAt": "2026-10-13T16:00:00Z",
+   "reserve": 500000,
+   "softCloseMin": 5
+  },
+  "d22": {
+   "endsAt": "2026-10-19T12:00:00Z",
+   "reserve": 12000,
+   "softCloseMin": 5
+  },
+  "d17": {
+   "endsAt": "2026-10-24T20:00:00Z",
+   "reserve": 50000,
+   "softCloseMin": 5
+  }
+ },
+ "deals": [
+  {
+   "kind": "sale",
+   "domain": "nimbus.com",
+   "price": 640000,
+   "sellerId": "p10",
+   "buyer": "Nimbus Freight",
+   "country": "SG",
+   "at": "2026-10-09"
+  },
+  {
+   "kind": "sale",
+   "domain": "ledgerpay.com",
+   "price": 38000,
+   "sellerId": "p3",
+   "buyer": "undisclosed",
+   "country": "DE",
+   "at": "2026-10-07"
+  },
+  {
+   "kind": "sale",
+   "domain": "trailhead.io",
+   "price": 9500,
+   "sellerId": "p16",
+   "buyer": "Mesa Outdoor Co.",
+   "country": "US",
+   "at": "2026-10-06"
+  },
+  {
+   "kind": "sale",
+   "domain": "korapay.ng",
+   "price": 4200,
+   "sellerId": "p8",
+   "buyer": "undisclosed",
+   "country": "NG",
+   "at": "2026-10-04"
+  },
+  {
+   "kind": "sale",
+   "domain": "villa.ae",
+   "price": 71000,
+   "sellerId": "p14",
+   "buyer": "Dune Properties",
+   "country": "AE",
+   "at": "2026-10-02"
+  },
+  {
+   "kind": "sale",
+   "domain": "agents.io",
+   "price": 155000,
+   "sellerId": "p4",
+   "buyer": "undisclosed",
+   "country": "US",
+   "at": "2026-09-29"
+  },
+  {
+   "kind": "sale",
+   "domain": "lumenpay.com",
+   "price": 24000,
+   "sellerId": "p22",
+   "buyer": "Lumen Ledger",
+   "country": "GB",
+   "at": "2026-09-26"
+  },
+  {
+   "kind": "sale",
+   "domain": "skyn.co",
+   "price": 6800,
+   "sellerId": "p23",
+   "buyer": "undisclosed",
+   "country": "KR",
+   "at": "2026-09-24"
+  }
+ ]
+}

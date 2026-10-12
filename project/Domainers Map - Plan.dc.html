@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=Lora:wght@400;600&display=swap">
+<script src="./doc-page.js"></script>
+<style>
+body{margin:0;background:#e6e4e1;color:#201f1d;font-family:"Lora",Georgia,serif;font-size:12.5px;line-height:1.55}
+a{color:#7d5411;text-underline-offset:3px}a:hover{color:#b68235}
+h1,h2,h3{font-family:"Cormorant Garamond",Georgia,serif;font-weight:600;letter-spacing:-.01em;line-height:1.1;margin:0}
+table{width:100%;border-collapse:collapse;font-size:11.5px;break-inside:auto}
+th{text-align:left;font-weight:400;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;color:rgba(32,31,29,.6);padding:6px 8px;border-bottom:1px solid rgba(32,31,29,.3)}
+td{padding:6px 8px;border-bottom:1px solid rgba(32,31,29,.14);vertical-align:top}
+tr{break-inside:avoid}
+code{font-family:ui-monospace,"SF Mono",Menlo,monospace;font-size:.92em;color:#3a270d}
+.box{break-inside:avoid}
+doc-page:not(:defined){visibility:hidden}
+</style>
+</helmet>
+<doc-page margin="0.8in" style="font-family:'Lora',Georgia,serif;background:#f3f2f2;color:#201f1d">
+  <div style="display:flex;justify-content:space-between;align-items:baseline;border-bottom:1px solid #201f1d;padding-bottom:10px;margin-bottom:28px">
+    <div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#b68235">Domainers Map · Product build plan</div>
+    <div style="font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(32,31,29,.55);font-variant-numeric:tabular-nums">v0.3 · 12 Oct 2026</div>
+  </div>
+  <h1 style="font-size:46px;font-weight:400;margin-bottom:10px;text-wrap:balance">Domainers Map</h1>
+  <p style="font-size:17px;font-family:'Cormorant Garamond',Georgia,serif;line-height:1.35;max-width:62ch;margin:0 0 22px;color:rgba(32,31,29,.8)">Architecture, schema, route and component inventories, build sequence and risks — followed by the design direction and links to the clickable prototype.</p>
+
+  <div class="box" style="border:1px solid rgba(32,31,29,.2);border-radius:4px;padding:14px 16px;margin-bottom:30px;display:grid;grid-template-columns:1fr 1fr;gap:10px 24px">
+    <div><div style="font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#b68235;margin-bottom:4px">Assumptions</div><ul style="margin:0;padding-left:16px"><li>No existing codebase was connected — this is a greenfield plan. If a repo exists, the inventories below become a diff, not a spec.</li><li>Primary v1 user is the <strong>domain investor</strong>; brokers and buyers are secondary personas.</li><li>Seed data for the prototype is placeholder; swap <code>data/seed.json</code> for your export — the app reads only that shape.</li></ul></div>
+    <div><div style="font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#b68235;margin-bottom:4px">Design reasoning</div><ul style="margin:0;padding-left:16px"><li>"Intelligence software" not "social network": dense, typographic, quiet. Colour is stroke, not fill — the only fills are match-score bars.</li><li>Dark-first app on a warm near-black; marketing and documents sit on paper. Same type (Cormorant Garamond display, Lora text, monospace for domains and prices).</li><li>The differentiator — domain → end-user buyer — is surfaced on every domain card and in a dedicated Matches view, not buried in a tab.</li></ul></div>
+  </div>
+
+  <h2 style="font-size:28px;margin-bottom:6px">0 · Product structure (revised in round 3)</h2>
+  <p style="max-width:70ch">Reference screenshots showed a builder-community map whose engine is a <strong>points economy</strong>: visibility on the map is earned, rank is public, and paid plans buy reach — never rank. We adopt that engine but re-centre it on domainers: the unit of value is a <em>domain with a price</em> and a <em>confirmed deal</em>, not a product launch.</p>
+  <table style="margin-bottom:14px"><thead><tr><th style="width:22%">Navigation</th><th>What lives there</th><th style="width:30%">Builder-map analogue → ours</th></tr></thead><tbody>
+    <tr><td><code>Explore</code></td><td>Map + filters + drawer. Pins are avatar circles with a rank badge; dense areas collapse to the top member's avatar with a <code>+N</code> chip.</td><td>Makers on the map → domainers, brokers, companies, events</td></tr>
+    <tr><td><code>Domainers</code></td><td>Leaderboard directory: rank, avatar, name, tier, @handle, focus line, city · type · featured domain, points.</td><td>Top makers → top domainers</td></tr>
+    <tr><td><code>Domains</code></td><td>Marketplace directory ranked by the holder's points: search, Top / New / Most offers / Near you, category chips with counts, cards with price or current bid and offer count.</td><td>Products → domains</td></tr>
+    <tr><td><code>Companies</code></td><td>Buyer directory with stated wish lists and best-fit inventory — our differentiator, no analogue.</td><td>—</td></tr>
+    <tr><td><code>Matches</code> · <code>Offers</code> · <code>Leads</code></td><td>Domain → buyer matching, proxy-bid offers &amp; auctions, pipeline.</td><td>—</td></tr>
+    <tr><td><code>Events</code></td><td>Conferences, meetups, dinners; hosting earns points.</td><td>Meetups</td></tr>
+    <tr><td><code>Today</code></td><td>Climbing today (points since midnight), leaderboards, deal feed.</td><td>Today / trending</td></tr>
+    <tr><td><code>Grow</code></td><td>Your spot on the map (city · country · worldwide tiles), progress to top 20, invite link, point-earning checklist, impact &amp; role badges, plans.</td><td>Contribute</td></tr>
+  </tbody></table>
+  <div class="box" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:28px">
+    <div style="border:1px solid rgba(32,31,29,.2);border-radius:4px;padding:12px 14px"><div style="font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#b68235;margin-bottom:6px">Visibility tiers (earned)</div><table><tbody>
+      <tr><td><strong>City</strong></td><td>Every member; pin appears at zoom ≥ 6.</td></tr>
+      <tr><td><strong>Country</strong></td><td>≥ 40 points <em>or</em> Country plan; pin appears at zoom 4–5.</td></tr>
+      <tr><td><strong>Worldwide</strong></td><td>Top 20 by points <em>or</em> World plan; pin appears at zoom ≤ 3 over the country choropleth.</td></tr>
+    </tbody></table></div>
+    <div style="border:1px solid rgba(32,31,29,.2);border-radius:4px;padding:12px 14px"><div style="font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#b68235;margin-bottom:6px">Point actions (v1 values)</div><table><tbody>
+      <tr><td>Post with your link (≤ 3/day) · say hi to a match</td><td style="text-align:right;font-variant-numeric:tabular-nums">+10</td></tr>
+      <tr><td>Link in X bio (pinned) · lander badge, per site ≤ 3</td><td style="text-align:right">+5 / day · +1 / day</td></tr>
+      <tr><td>DNS-verify a listed domain (≤ 10) · list a domain with a price</td><td style="text-align:right">+15 · +5</td></tr>
+      <tr><td>Review a broker · confirm email · invite joins</td><td style="text-align:right">+20 · +25 · +50</td></tr>
+      <tr><td>Attest a completed deal (counterparty confirms) · host a meetup</td><td style="text-align:right">+100 · +150</td></tr>
+      <tr><td colspan="2" style="font-size:11px;color:rgba(32,31,29,.65)">Decay 2 % / month idle. Points and rank are never for sale; plans buy reach and refresh cadence only.</td></tr>
+    </tbody></table></div>
+  </div>
+
+  <h2 style="font-size:28px;margin-bottom:6px">1 · Architecture proposal</h2>
+  <p style="max-width:70ch">One Next.js (App Router) monorepo on Supabase. Five seams, each independently deployable or replaceable later. Nothing talks to the database except the API layer; the matcher is a worker, not a request-time call.</p>
+  <div class="box" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:14px 0 10px">
+    <div style="border:1px solid #b68235;border-radius:4px;padding:10px"><div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:16px">Marketing</div><div style="font-size:11px;color:rgba(32,31,29,.7)"><code>app/(marketing)</code> — static, ISR. Landing, pricing, public profile pages (SEO).</div></div>
+    <div style="border:1px solid #b68235;border-radius:4px;padding:10px"><div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:16px">App</div><div style="font-size:11px;color:rgba(32,31,29,.7)"><code>app/(app)</code> — auth-gated. Map explorer, directories, inventory, matches, leads, events, settings.</div></div>
+    <div style="border:1px solid #b68235;border-radius:4px;padding:10px"><div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:16px">API &amp; data</div><div style="font-size:11px;color:rgba(32,31,29,.7)">Route handlers + server actions over Supabase (Postgres, PostGIS, RLS, Storage, Auth). Typed with generated DB types.</div></div>
+    <div style="border:1px solid #b68235;border-radius:4px;padding:10px"><div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:16px">Search &amp; matching</div><div style="font-size:11px;color:rgba(32,31,29,.7)">Postgres FTS + trigram for search; <code>pgvector</code> embeddings + rules for buyer matching, computed by a queued worker.</div></div>
+    <div style="border:1px solid #b68235;border-radius:4px;padding:10px"><div style="font-family:'Cormorant Garamond',serif;font-weight:600;font-size:16px">Admin</div><div style="font-size:11px;color:rgba(32,31,29,.7)"><code>app/(admin)</code> — role-gated. Verification queue, moderation, sponsorships, data imports, audit log.</div></div>
+  </div>
+  <table style="margin-bottom:28px"><thead><tr><th style="width:22%">Concern</th><th>Decision</th></tr></thead><tbody>
+    <tr><td>Folder structure</td><td><code>features/&lt;map|directory|inventory|matching|leads|events|billing|admin&gt;/</code> each with <code>components/ · server/ · queries.ts · schema.ts</code>; shared primitives in <code>components/ui</code> (shadcn) and <code>lib/</code>. No business data in components — everything comes through typed queries.</td></tr>
+    <tr><td>Map</td><td>MapLibre GL JS with an OSM-compatible vector style (self-hosted or MapTiler/Protomaps — see risks). Server returns GeoJSON tiles via a <code>/api/map/features</code> route using <code>ST_AsMVT</code> at zoom ≥ 6 and pre-aggregated clusters below that; client-side <code>cluster: true</code> only for ≤ 5k features.</td></tr>
+    <tr><td>Auth &amp; tenancy</td><td>Supabase Auth (magic link + Google). Every table carries <code>workspace_id</code>; RLS policies per role (<code>member · broker · admin</code>). Leads and notes are private to the workspace; profiles are public unless <code>visibility = 'private'</code>.</td></tr>
+    <tr><td>Matching</td><td>Deterministic rules first (wish-list, brand-name, TLD upgrade, keyword overlap, budget signal) producing a 0–100 score with reasons; embedding similarity as one weighted feature, never the whole score. Results cached in <code>match_scores</code>, recomputed on inventory or company change via <code>pg_net</code> → Edge Function queue.</td></tr>
+    <tr><td>Offers &amp; outbid</td><td>Open offers with <strong>proxy bids</strong> on every listed domain; optional timed auction with reserve and soft close (+5 min on late bids). Resolution is a single Postgres function (<code>place_offer</code>) running in a transaction with row locks, so two simultaneous bids can't both lead. Outbid events fan out to <code>notifications</code> (in-app + email) via <code>pg_net</code>.</td></tr>
+    <tr><td>Verification tiers</td><td>Three cumulative tiers: <strong>X</strong> (OAuth 2.0 link + account age ≥ 1 yr + one-time code in bio or post), <strong>DNS</strong> (TXT record on a sample of listed domains), <strong>Attested</strong> (a counterparty confirms a completed deal). Only DNS/Attested unlock full match scores and offer privileges above a threshold.</td></tr>
+    <tr><td>Reputation points</td><td>Computed nightly by a worker from verification tier, profile completeness, priced listings, offers made/received, attested deals, RSVPs; decays 2%/month of inactivity. Points drive pin size, directory rank and badges — never match scores, never purchasable. Sponsorship stays a separate labelled mark.</td></tr>
+    <tr><td>Country view</td><td>At zoom ≤ 3 the map renders a choropleth of member density with per-country counts (from a <code>country_stats</code> materialised view) and merged labels where countries collide; zooming in resolves to clusters, then pins.</td></tr>
+    <tr><td>State &amp; data fetching</td><td>Server components for reads; TanStack Query for the map's live viewport queries; URL is the source of truth for filters (shareable searches).</td></tr>
+    <tr><td>Observability</td><td>Structured logs via <code>pino</code>; Sentry for client + server; Supabase log drains. Feature flags via a <code>flags</code> table, not env vars.</td></tr>
+  </tbody></table>
+
+  <h2 style="font-size:28px;margin-bottom:6px;break-before:page">2 · Database schema</h2>
+  <p style="max-width:70ch">PostgreSQL with PostGIS and pgvector. All ids <code>uuid</code>, all tables have <code>created_at · updated_at</code>; soft deletes via <code>deleted_at</code> on user-generated rows. Locations are <code>geography(Point, 4326)</code> with a GiST index; city-level precision only, by design (privacy).</p>
+  <table style="margin-bottom:22px"><thead><tr><th style="width:18%">Table</th><th>Key columns</th><th style="width:30%">Notes</th></tr></thead><tbody>
+    <tr><td><code>workspaces</code></td><td>name, plan (<code>free·pro·broker·enterprise</code>), stripe_customer_id</td><td>Tenant root.</td></tr>
+    <tr><td><code>users</code> / <code>memberships</code></td><td>auth_user_id, workspace_id, role</td><td>One user, many workspaces.</td></tr>
+    <tr><td><code>profiles</code></td><td>workspace_id, kind (<code>investor·broker</code>), display_name, org, bio, location <code>geography</code>, city, country_code, tlds <code>text[]</code>, focus_tags <code>text[]</code>, portfolio_size, deals_12m, verified_at, visibility, search <code>tsvector</code></td><td>The map's people layer. <code>deals_12m</code> is self-reported until transaction attestation exists.</td></tr>
+    <tr><td><code>companies</code></td><td>name, website_domain, industry, stage, employees_band, funding_usd, hq_location <code>geography</code>, city, country_code, keywords <code>text[]</code>, source, source_ref, claimed_by_workspace_id, embedding <code>vector(1536)</code></td><td>Imported + claimable. <code>source</code> records provenance (manual, csv, partner API).</td></tr>
+    <tr><td><code>company_domain_wants</code></td><td>company_id, domain_name, priority, inferred bool</td><td>Explicit wish-lists and inferred upgrades (e.g. <code>brand.io → brand.com</code>).</td></tr>
+    <tr><td><code>domains</code></td><td>workspace_id, name (unique, lowercase), tld, sld, category, asking_usd, status (<code>listed·make_offer·sold·unlisted</code>), keywords <code>text[]</code>, embedding <code>vector(1536)</code>, visibility</td><td>Inventory. Ownership is asserted, verified via DNS TXT later.</td></tr>
+    <tr><td><code>match_scores</code></td><td>domain_id, company_id, score int, reasons <code>jsonb</code>, model_version, computed_at</td><td>PK (domain_id, company_id). Worker-written; read-only to clients.</td></tr>
+    <tr><td><code>offers</code></td><td>domain_id, bidder_workspace_id, amount_usd, max_proxy_usd, status (<code>leading·outbid·withdrawn·accepted·declined</code>), placed_at</td><td>Append-only; current price derived by <code>place_offer()</code> (second-highest max + increment). Unique partial index: one <code>leading</code> per domain.</td></tr>
+    <tr><td><code>auctions</code></td><td>domain_id, starts_at, ends_at, reserve_usd, soft_close_minutes, status</td><td>Late bids extend <code>ends_at</code>; a cron closes auctions and emits <code>auction_closed</code>.</td></tr>
+    <tr><td><code>notifications</code></td><td>user_id, kind (<code>outbid·auction_ending·offer_received·verification</code>), payload <code>jsonb</code>, read_at</td><td>Realtime channel per user.</td></tr>
+    <tr><td><code>verifications</code></td><td>profile_id, tier (<code>x·dns·attested</code>), evidence <code>jsonb</code> (x_user_id, handle, account_created_at · txt_records · deal_id), verified_at, revoked_at</td><td>Replaces the single <code>verified_at</code>; X handle stored on <code>profiles.x_handle</code>.</td></tr>
+    <tr><td><code>deal_attestations</code></td><td>domain_name, seller_profile_id, buyer_profile_id null, buyer_company_id null, price_usd null, closed_at, confirmed_by both sides</td><td>Feeds the Attested tier and the public deal feed (price shown only if both consent).</td></tr>
+    <tr><td><code>reputation_events</code> / <code>reputation_scores</code></td><td>profile_id, kind, points, ref · profile_id, points, rank, computed_at</td><td>Event log + nightly rollup; leaderboards read the rollup.</td></tr>
+    <tr><td><code>leads</code></td><td>workspace_id, target_type (<code>company·profile</code>), target_id, domain_id null, stage (<code>new·contacted·negotiating·won·lost</code>), owner_user_id, value_usd</td><td>Lightweight CRM.</td></tr>
+    <tr><td><code>lead_activities</code></td><td>lead_id, kind (<code>note·email·call·stage_change</code>), body, actor_id</td><td>Timeline.</td></tr>
+    <tr><td><code>events</code></td><td>name, kind, starts_at, ends_at, location <code>geography</code>, city, country_code, url, organizer_profile_id</td><td>Plus <code>event_rsvps</code> (event_id, user_id, status).</td></tr>
+    <tr><td><code>connections</code> / <code>messages</code></td><td>requester_id, addressee_id, status · thread_id, sender_id, body</td><td>Phase 3; schema reserved, UI deferred.</td></tr>
+    <tr><td><code>plans</code> / <code>subscriptions</code></td><td>workspace_id, plan (<code>free·country·world</code>), stripe_subscription_id, current_period_end</td><td>Drives visibility override and X-refresh cadence (weekly / daily).</td></tr>
+    <tr><td><code>invites</code></td><td>inviter_profile_id, code, joined_profile_id null, joined_at</td><td>+50 per join; "Recruiter" badge.</td></tr>
+    <tr><td><code>lander_badges</code></td><td>profile_id, domain_name, last_seen_at, verified bool</td><td>Daily crawler confirms the badge is live (≤ 3 sites).</td></tr>
+    <tr><td><code>x_posts</code></td><td>profile_id, x_post_id, has_link, likes, replies, scored_at</td><td>Posts with the member's link; capped 3/day.</td></tr>
+    <tr><td><code>broker_reviews</code></td><td>reviewer_profile_id, broker_profile_id, deal_id null, rating, body, status</td><td>Only after a shared deal or lead; moderated.</td></tr>
+    <tr><td><code>profile_views</code></td><td>profile_id, viewer_profile_id, viewed_at</td><td>World plan feature ("who viewed").</td></tr>
+    <tr><td><code>sponsor_slots</code> / <code>slot_bids</code></td><td>region, slot_no, current_bid_usd_mo, holder_workspace_id, target (domain or profile), next_min_bid · slot_id, bidder_workspace_id, amount_usd_mo, status</td><td>Auctioned map placements; outbid notifications reuse the offers notification path. Monthly charge = winning bid.</td></tr>
+    <tr><td><code>sponsorships</code></td><td>workspace_id, target_type, target_id, placement (<code>map_slot·directory_top·search_boost</code>), starts_at, ends_at, stripe_subscription_id</td><td>Monetisation; rendered as a visible "Sponsored" mark, never hidden ranking.</td></tr>
+    <tr><td><code>verification_requests</code></td><td>profile_id, kind, evidence <code>jsonb</code>, status, reviewer_id</td><td>Admin queue.</td></tr>
+    <tr><td><code>imports</code> / <code>audit_log</code> / <code>flags</code></td><td>file_path, row_count, status, errors · actor, action, target, diff · key, enabled, rollout_pct</td><td>Operations.</td></tr>
+  </tbody></table>
+  <p style="font-size:11.5px;color:rgba(32,31,29,.7);max-width:70ch">Indexes: GiST on every <code>geography</code>; GIN on <code>tsvector</code>, <code>text[]</code> and <code>jsonb</code>; HNSW on embeddings; <code>(workspace_id, status)</code> on leads and domains. A materialised view <code>map_features</code> unions profiles, companies and events into one GeoJSON-ready shape for the tile route, refreshed concurrently every 5 minutes.</p>
+
+  <h2 style="font-size:28px;margin:30px 0 6px">3 · Page &amp; route inventory</h2>
+  <table style="margin-bottom:28px"><thead><tr><th style="width:30%">Route</th><th>Purpose</th><th style="width:18%">Access</th></tr></thead><tbody>
+    <tr><td><code>/</code> · <code>/pricing</code> · <code>/for-brokers</code> · <code>/for-startups</code></td><td>Marketing. Hero with a live (anonymised) map, differentiator section, plans.</td><td>Public</td></tr>
+    <tr><td><code>/p/[slug]</code> · <code>/c/[slug]</code> · <code>/d/[name]</code></td><td>Public profile, company and domain pages — indexable, with claim CTA.</td><td>Public</td></tr>
+    <tr><td><code>/login</code> · <code>/onboarding</code></td><td>Auth; onboarding collects kind, location (city), TLDs, focus.</td><td>Public → member</td></tr>
+    <tr><td><code>/app</code> (map explorer)</td><td>Map + sidebar + filters + drawer; <code>?q · type · tld · region · bbox · id</code> in the URL; map/list toggle.</td><td>Member</td></tr>
+    <tr><td><code>/app/directory</code> · <code>/app/companies</code></td><td>List-first views of the same data with saved searches.</td><td>Member</td></tr>
+    <tr><td><code>/app/inventory</code> · <code>/app/inventory/[id]</code></td><td>My domains; per-domain match page.</td><td>Member</td></tr>
+    <tr><td><code>/app/matches</code></td><td>Domain → buyer matching workspace; export to leads.</td><td>Member (Pro for &gt; 3 domains)</td></tr>
+    <tr><td><code>/app/offers</code> · <code>/app/offers/received</code></td><td>My offers (leading / outbid), auctions ending soon, raise flow; offers received on my inventory with accept / decline.</td><td>Member</td></tr>
+    <tr><td><code>/app/domainers</code> · <code>/app/domains</code> · <code>/app/companies</code> · <code>/app/events</code></td><td>Directories ranked by points; marketplace grid with category chips and sort (Top / New / Most offers / Near you).</td><td>Member</td></tr>
+    <tr><td><code>/app/today</code></td><td>Climbing today, leaderboards (members, countries, brokers) and the deal feed.</td><td>Member</td></tr>
+    <tr><td><code>/app/grow</code> · <code>/[handle]/invite</code></td><td>Your spot on the map, progress to top 20, invite link, point-earning checklist, impact &amp; role badges, Country / World plans.</td><td>Member / public invite</td></tr>
+    <tr><td><code>/app/settings/verification</code> · <code>/api/auth/x/callback</code></td><td>Link X, run DNS check, request attestation.</td><td>Member</td></tr>
+    <tr><td><code>/app/leads</code> · <code>/app/leads/[id]</code></td><td>Pipeline table / board; lead detail with activity timeline.</td><td>Member</td></tr>
+    <tr><td><code>/app/events</code> · <code>/app/events/[id]</code></td><td>Upcoming events, map and RSVPs.</td><td>Member</td></tr>
+    <tr><td><code>/app/settings/{profile,workspace,billing,api}</code></td><td>Account, team, plan, API keys.</td><td>Member / owner</td></tr>
+    <tr><td><code>/admin</code> · <code>/admin/verifications</code> · <code>/admin/companies</code> · <code>/admin/imports</code> · <code>/admin/sponsorships</code> · <code>/admin/audit</code></td><td>Console — see the Admin prototype.</td><td>Admin role</td></tr>
+    <tr><td><code>/api/map/features</code> · <code>/api/search</code> · <code>/api/matches/[domainId]</code> · <code>/api/webhooks/stripe</code></td><td>Route handlers; everything else is server actions.</td><td>Session / signed</td></tr>
+  </tbody></table>
+
+  <h2 style="font-size:28px;margin-bottom:6px;break-before:page">4 · Component inventory</h2>
+  <table style="margin-bottom:28px"><thead><tr><th style="width:26%">Component</th><th>Responsibility</th><th style="width:26%">Built on</th></tr></thead><tbody>
+    <tr><td><code>AppShell</code> · <code>TopBar</code> · <code>NavTabs</code></td><td>Frame, global search entry, workspace switcher.</td><td>shadcn <code>Command</code>, <code>DropdownMenu</code></td></tr>
+    <tr><td><code>MapCanvas</code></td><td>MapLibre instance, style, viewport ↔ URL sync, resize handling.</td><td>MapLibre GL, <code>react-map-gl</code> optional</td></tr>
+    <tr><td><code>FeatureLayer</code> · <code>ClusterLayer</code> · <code>PinGlyph</code></td><td>Typed symbol layers per entity; cluster circles with counts; selected-state halo.</td><td>MapLibre layers, SDF icons</td></tr>
+    <tr><td><code>ExplorerSidebar</code> · <code>FilterChips</code> · <code>TldChips</code> · <code>RegionChips</code></td><td>Search, filters, result count, sort; emits URL state.</td><td>shadcn <code>Toggle</code>, <code>Input</code>, <code>Select</code></td></tr>
+    <tr><td><code>ResultCard</code> (variants: profile · company · domain · event)</td><td>Dense list item with kicker, title, price/activity, meta.</td><td>Own</td></tr>
+    <tr><td><code>HoverCard</code></td><td>Appears on pin / result hover, closes on leave: avatar, name, tier, @handle, city, focus line, rank · points (company: wants · funding).</td><td>shadcn <code>HoverCard</code></td></tr>
+    <tr><td><code>DetailsDrawer</code> (placements: side · card · sheet)</td><td>Entity detail with sections, actions; placement chosen per breakpoint.</td><td>shadcn <code>Sheet</code> / <code>Drawer</code> (Vaul)</td></tr>
+    <tr><td><code>MatchList</code> · <code>MatchRow</code> · <code>ScoreBar</code></td><td>Ranked buyers with reasons; add-to-lead action.</td><td>Own</td></tr>
+    <tr><td><code>ListView</code> · <code>DataTable</code></td><td>Map/list toggle target; sortable, virtualised.</td><td>shadcn <code>Table</code> + TanStack Table</td></tr>
+    <tr><td><code>LeadPipeline</code> · <code>StageSelect</code> · <code>ActivityTimeline</code></td><td>CRM.</td><td>shadcn <code>Select</code>, <code>Textarea</code></td></tr>
+    <tr><td><code>OfferPanel</code> · <code>ProxyBidForm</code> · <code>BidderList</code> · <code>AuctionCountdown</code></td><td>Current high, your status, raise with max; reserve and soft-close state.</td><td>shadcn <code>Input</code>, <code>Button</code>; server action <code>placeOffer</code></td></tr>
+    <tr><td><code>NotificationBell</code> · <code>OutbidToast</code></td><td>Realtime outbid / ending-soon alerts.</td><td>Supabase Realtime, <code>Sonner</code></td></tr>
+    <tr><td><code>CountryChoropleth</code> · <code>CountryLabel</code></td><td>Low-zoom density fill and merged count labels.</td><td>MapLibre fill layer + symbol layer</td></tr>
+    <tr><td><code>TierBadge</code> (x · dns · attested) · <code>ReputationScore</code> · <code>Leaderboard</code> · <code>DealFeed</code></td><td>Trust tiers, points, rankings, recent sales/offers.</td><td>Own</td></tr>
+    <tr><td><code>NavRail</code> · <code>MeCard</code> · <code>LiveCounter</code></td><td>Left navigation with counts, signed-in card (#rank · @handle), online/members counter.</td><td>shadcn <code>Button</code>, Supabase Presence</td></tr>
+    <tr><td><code>AvatarPin</code> · <code>ClusterChip</code></td><td>Circular avatar pin sized by points with rank badge; <code>+N</code> chip anchored to the top member's avatar.</td><td>MapLibre HTML markers / symbol layer with image sprites</td></tr>
+    <tr><td><code>DirectoryHeader</code> · <code>SortSegment</code> · <code>CategoryChips</code> · <code>DomainCard</code></td><td>Marketplace directory pieces with live counts.</td><td>shadcn <code>ToggleGroup</code></td></tr>
+    <tr><td><code>SpotTiles</code> · <code>ProgressToTop</code> · <code>InviteLink</code> · <code>GrowChecklist</code> · <code>ImpactStats</code> · <code>PlanCards</code></td><td>The Grow page.</td><td>shadcn <code>Progress</code>, <code>Card</code></td></tr>
+    <tr><td><code>SponsoredMark</code></td><td>Monetisation badge; always visible, consistent, never confused with trust tiers.</td><td>Own</td></tr>
+    <tr><td><code>EmptyState</code> · <code>Toast</code> · <code>ProtoNotice</code></td><td>Feedback.</td><td>shadcn <code>Sonner</code></td></tr>
+    <tr><td><code>AdminQueue</code> · <code>ImportWizard</code> · <code>AuditTable</code></td><td>Console pieces.</td><td>shadcn <code>Tabs</code>, <code>Dialog</code>, <code>Table</code></td></tr>
+  </tbody></table>
+
+  <h2 style="font-size:28px;margin-bottom:6px">5 · Implementation sequence</h2>
+  <table style="margin-bottom:28px"><thead><tr><th style="width:10%">Phase</th><th style="width:24%">Scope</th><th>Done when</th></tr></thead><tbody>
+    <tr><td>0</td><td>Foundation</td><td>Repo, Tailwind + shadcn theme (dark-first tokens from this design), Supabase project, migrations for §2, RLS, generated types, CI, seed script reading the same JSON shape as the prototype.</td></tr>
+    <tr><td>1</td><td>Auth + onboarding + profiles</td><td>Sign in, create workspace, publish a profile with a city-level location; public <code>/p/[slug]</code> renders.</td></tr>
+    <tr><td>2</td><td>Map explorer</td><td>MapLibre with tile route, clustering, filters in URL, result list, drawer (side on desktop, sheet on mobile), map/list toggle. Mobile layout passes.</td></tr>
+    <tr><td>3</td><td>Companies + inventory</td><td>CSV import for companies (admin), claim flow; investors add domains; public <code>/c</code> and <code>/d</code> pages.</td></tr>
+    <tr><td>4</td><td>Matching</td><td>Rules scorer + embeddings worker; <code>/app/matches</code>; scores on domain drawer. Evaluate against a hand-labelled set of 200 pairs before launch.</td></tr>
+    <tr><td>5</td><td>Offers &amp; outbid</td><td><code>place_offer()</code> with proxy resolution and tests for race conditions; offer panel; notifications; My offers. Timed auctions with reserve and soft close behind a flag.</td></tr>
+    <tr><td>6</td><td>Leads</td><td>Pipeline, activities, add-to-lead from every match surface; accepted offers create a lead automatically.</td></tr>
+    <tr><td>7</td><td>Trust &amp; reputation</td><td>X OAuth link, DNS TXT check, deal attestation; points worker with the action table in §0, visibility tiers, tier badges, country choropleth, leaderboards, deal feed, Grow page (checklist, invite link, impact).</td></tr>
+    <tr><td>8</td><td>Events + admin</td><td>Events CRUD, RSVPs; verification queue (all three tiers), offer disputes, moderation, audit log.</td></tr>
+    <tr><td>9</td><td>Monetisation</td><td>Stripe: <strong>Country $4/mo</strong> (country-wide visibility whatever your rank, weekly X refresh) and <strong>World $12/mo</strong> (biggest pin worldwide, followed backlinks to landers, daily X refresh, portfolio-wide matches, profile views); brokerage sponsorships with visible marks. <strong>Sponsored map slots are auctioned</strong>: a fixed number of slots per region (e.g. 24), each holding one domain/brokerage card with its own monthly bid; anyone can outbid (next bid from current + $2/mo), the incumbent is notified and can raise; slots show "Sponsored · current bid · Outbid from $X" in the hover card. Rank is never sold.</td></tr>
+    <tr><td>10</td><td>Networking</td><td>Connections and messaging — only after §1–9 are stable.</td></tr>
+  </tbody></table>
+
+  <h2 style="font-size:28px;margin-bottom:6px">6 · Risks &amp; external dependencies</h2>
+  <table style="margin-bottom:28px"><thead><tr><th style="width:26%">Dependency / risk</th><th>Impact</th><th style="width:34%">Mitigation</th></tr></thead><tbody>
+    <tr><td>Map tiles</td><td>Public OSM raster tiles are not for production traffic; a vector style needs a provider (MapTiler, Protomaps/PMTiles self-hosted, Stadia).</td><td>Start with Protomaps PMTiles on Supabase Storage/Cloudflare; budget for a provider if traffic grows. Attribution always shown.</td></tr>
+    <tr><td>Company data</td><td>No live company feed exists until a source is licensed (Crunchbase, PitchBook, Companies House, OpenCorporates).</td><td>Phase 3 ships with CSV import + claim flow only. No integration is shown as connected until it is.</td></tr>
+    <tr><td>Embeddings / LLM</td><td>Costs and vendor lock-in; hallucinated "reasons".</td><td>Reasons come from rules; embeddings are one feature. Model version stored per score; swap-able provider behind one interface.</td></tr>
+    <tr><td>Location privacy</td><td>Investors may not want precise pins.</td><td>City-level geocoding only; jitter within the city; profile-level visibility.</td></tr>
+    <tr><td>Data quality / fake profiles</td><td>Trust is the product.</td><td>Verification queue, DNS TXT domain ownership check, rate limits, report flow.</td></tr>
+    <tr><td>Geocoding</td><td>Needs a service (Nominatim policy limits, Mapbox, Google).</td><td>Geocode once at write time, store the point; cache city centroids.</td></tr>
+    <tr><td>X (Twitter) API</td><td>OAuth 2.0 user auth is on the paid tiers and rate-limited; policy can change.</td><td>Use X only to link a handle and read account age; never rely on it alone — DNS and attestation are the strong tiers. Fallback: paste a profile link + bio code checked manually.</td></tr>
+    <tr><td>Offers: shill bidding &amp; non-payment</td><td>Fake rivals inflate prices; winners vanish.</td><td>Offers require DNS or Attested tier above a threshold; bidder history visible to sellers; escrow partner (Escrow.com API) for settlement; strikes reduce points.</td></tr>
+    <tr><td>"Refreshed from X" and post scoring</td><td>Reading a member's posts/bio needs X API read access (paid, rate-limited) or fragile scraping.</td><td>Only fetch for paying plans at the promised cadence; cache aggressively; degrade to manual "Verify" button that checks one URL.</td></tr>
+    <tr><td>Lander badge crawler</td><td>Daily checks of up to 3 sites per member scale linearly.</td><td>Edge function with HEAD + small GET, 24 h cache, exponential back-off; verify only members active in the last 30 days.</td></tr>
+    <tr><td>Points gaming</td><td>Spam listings or self-dealt attestations to climb ranks.</td><td>Attestations need both parties verified; per-kind caps; decay; anomaly flags to admin.</td></tr>
+    <tr><td>Payments</td><td>Stripe, tax (Stripe Tax), invoicing.</td><td>Phase 9; feature-flagged.</td></tr>
+    <tr><td>Email</td><td>Transactional (Resend/Postmark) for auth and lead reminders.</td><td>Supabase Auth email first; provider later.</td></tr>
+    <tr><td>Sponsorship vs. trust</td><td>Paid placement can erode the "intelligence" positioning.</td><td>Sponsored items are marked and capped per view; never alter match scores.</td></tr>
+  </tbody></table>
+
+  <h2 style="font-size:28px;margin-bottom:6px;break-before:page">7 · Design direction &amp; prototype</h2>
+  <p style="max-width:70ch">Three working prototypes accompany this plan. They run on the placeholder seed and store leads locally — no backend or external service is connected.</p>
+  <table style="margin-bottom:18px"><thead><tr><th style="width:30%">File</th><th>What it shows</th></tr></thead><tbody>
+    <tr><td><a href="Domainers%20Map%20%E2%80%94%20App.html">Domainers Map — App</a></td><td>Map explorer with clustering, filters, map/list toggle, details drawer, buyer matching and lead pipeline. The top-right <em>Layout</em> and <em>Drawer</em> controls switch between three sidebar layouts (docked · floating · split) and three drawer treatments (side panel · floating card · bottom sheet). Round 2 added: offers with proxy bids and outbid alerts (<em>Offers</em> tab, "Simulate rival bid" to see an outbid land), timed auctions with reserve, X / DNS / Attested tiers, reputation points that size pins and rank results, a country choropleth at low zoom, leaderboards and a deal feed. Round 3 re-organised navigation into a left rail (Explore · Domainers · Domains · Companies · Matches · Offers · Events · Today · Leads · Grow), added the directories, avatar pins with earned visibility tiers, and the Grow page with checklist, invite link, impact badges and Country / World plans.</td></tr>
+    <tr><td><a href="Domainers%20Map%20%E2%80%94%20Landing.dc.html">Domainers Map — Landing</a></td><td>Public marketing page.</td></tr>
+    <tr><td><a href="Domainers%20Map%20%E2%80%94%20Admin.dc.html">Domainers Map — Admin</a></td><td>Admin console: verification queue, imports, sponsorships, audit.</td></tr>
+  </tbody></table>
+  <div class="box" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px">
+    <div style="border:1px solid rgba(32,31,29,.2);border-radius:4px;padding:12px"><div style="font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#b68235;margin-bottom:6px">Colour</div><div style="display:flex;gap:6px;margin-bottom:6px"><span style="width:28px;height:28px;background:#1b1917;border-radius:3px;border:1px solid rgba(32,31,29,.2)"></span><span style="width:28px;height:28px;background:#242120;border-radius:3px;border:1px solid rgba(32,31,29,.2)"></span><span style="width:28px;height:28px;background:#efe9e1;border-radius:3px;border:1px solid rgba(32,31,29,.2)"></span><span style="width:28px;height:28px;background:#c28d41;border-radius:3px"></span><span style="width:28px;height:28px;background:#e1ad66;border-radius:3px"></span></div><div style="font-size:11px;color:rgba(32,31,29,.7)">Warm near-black ground, paper text, one gold accent used as stroke. No second accent; status is carried by type and position.</div></div>
+    <div style="border:1px solid rgba(32,31,29,.2);border-radius:4px;padding:12px"><div style="font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#b68235;margin-bottom:6px">Type</div><div style="font-family:'Cormorant Garamond',serif;font-size:22px;line-height:1">Cormorant Garamond</div><div style="font-size:12px">Lora for interface text</div><div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;margin-top:2px">monospace for domains · $ prices</div></div>
+    <div style="border:1px solid rgba(32,31,29,.2);border-radius:4px;padding:12px"><div style="font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#b68235;margin-bottom:6px">Map marks</div><div style="font-size:11px;color:rgba(32,31,29,.7);line-height:1.7">● investor (filled) · ○ broker (ring)<br>□ company (paper outline) · ◇ event (dashed)<br>Numbered gold circles cluster dense regions.</div></div>
+  </div>
+  <div style="font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#b68235;margin-bottom:4px">Next steps</div>
+  <ul style="margin:0;padding-left:16px;max-width:70ch"><li>Pick a layout and drawer treatment from the prototype (or a mix) so Phase 2 has one target.</li><li>Send real seed data (investors, companies, domains) in the <code>seed.json</code> shape to replace placeholders.</li><li>Decide the tile provider and the first company-data source — both gate Phases 2 and 3.</li></ul>
+</doc-page>
+</x-dc>
+</body>
+</html>
