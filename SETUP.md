@@ -1,12 +1,23 @@
 # Turning on Sign in with X and shared listings
 
-Without these settings the app runs in **demo mode**: sample data only, no sign-in. Three accounts are
-involved, and setup takes about 15 minutes. No secret keys go into the app or Vercel. The X app's secret
+Without these settings the app runs in **demo mode**: sample data only, no sign-in. Three services need
+setting up (Supabase, X and Vercel), which takes about 15 minutes. No secret keys go into the app or Vercel. The X app's secret
 is stored only inside Supabase.
+
+## Which account owns what
+
+| Service | Sign in with | Used for |
+|---------|--------------|----------|
+| GitHub | **trsaso** (trsaso@gmail.com) | the code repository |
+| Vercel | **sasograbcom@gmail.com** | hosting and environment variables |
+| Supabase | **trsaso@gmail.com** | database and member sign-ins |
+| X developer app | **@GrabCom** | the "Sign in with X" app |
+
+The services connect only through the values you copy between them, so it doesn't matter that the emails differ.
 
 ## 1. Supabase project and database
 
-1. Go to https://supabase.com, sign in, and click **New project**. Pick a region close to your users,
+1. Go to https://supabase.com, sign in with **trsaso@gmail.com**, and click **New project**. Pick a region close to your users,
    such as Frankfurt, and save the database password somewhere safe. Wait until the project is ready.
 2. Open **SQL Editor → New query**. Paste the whole of `supabase/migrations/0001_profiles_domains.sql`
    and click **Run**. Then do the same with `supabase/migrations/0002_offers.sql`.
@@ -17,7 +28,7 @@ is stored only inside Supabase.
 
 ## 2. X developer app
 
-1. Go to https://developer.x.com → **Developer Portal → Projects & Apps** and create an app. The Free tier is enough.
+1. Sign in to https://developer.x.com as **@GrabCom** → **Developer Portal → Projects & Apps** and create an app. The Free tier is enough.
 2. In the app, open **User authentication settings → Set up** and fill in:
    - **App permissions:** Read
    - **Type of App:** Web App
@@ -40,7 +51,7 @@ is stored only inside Supabase.
 
 ## 4. Vercel environment variables
 
-Open **Vercel → domainers-map → Settings → Environment Variables** and add these for **Production and Preview**:
+Sign in to Vercel with **sasograbcom@gmail.com**, then open **domainers-map → Settings → Environment Variables** and add these for **Production and Preview**:
 
 | Name | Value |
 |------|-------|
