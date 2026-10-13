@@ -11,21 +11,10 @@ import { Av, TierChip } from "@/features/common/ui";
 import { useGo } from "@/features/common/nav";
 import { OfferSection } from "./OfferSection";
 
-/**
- * Details drawer. `preview` = opened by hovering a pin or card; it overlays the map and closes
- * when the pointer leaves (unless it moves into the drawer). Clicking anywhere inside pins it open.
- */
-export function Drawer({ item, preview }: { item: Item; preview: boolean }) {
-  const { holdPreview, hoverLeave, pinPreview } = useApp.getState();
+/** Details drawer for the selected item: opened by a click, closed with ✕, Esc or a click on empty map. */
+export function Drawer({ item }: { item: Item }) {
   return (
-    <div
-      className={`drawer ${preview ? "preview" : ""}`}
-      role="dialog"
-      aria-label={`${item.label} details`}
-      onMouseEnter={preview ? holdPreview : undefined}
-      onMouseLeave={preview ? hoverLeave : undefined}
-      onPointerDownCapture={preview ? pinPreview : undefined}
-    >
+    <div className="drawer" role="dialog" aria-label={`${item.label} details`}>
       {isPerson(item) ? (
         <PersonDrawer i={item} />
       ) : item.kind === "company" ? (

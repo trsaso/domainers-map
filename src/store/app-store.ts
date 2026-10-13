@@ -50,8 +50,10 @@ interface Persisted {
 interface Ui {
   /** Item pinned open by a click; stays until closed. */
   selectedId: string | null;
-  /** Item previewed by hovering a pin or card; closes when the pointer leaves. */
-  previewId: string | null;
+  /** Small hover card for a pin or result card; `x`/`y` are viewport coordinates of its anchor. */
+  hover: { id: string; x: number; y: number } | null;
+  /** The results list folds away while a drawer is open so the map keeps its width; the "List" tab reopens it. */
+  listHidden: boolean;
   mode: "map" | "list";
   sideOpen: boolean;
   filters: Filters;
@@ -70,10 +72,8 @@ interface Actions {
   toast(msg: string): void;
   select(id: string, fly?: boolean): void;
   closeDrawer(): void;
-  hoverEnter(id: string): void;
+  hoverEnter(id: string, x: number, y: number): void;
   hoverLeave(): void;
-  holdPreview(): void;
-  pinPreview(): void;
   addLead(targetId: string, domainId?: string | null): void;
   setStage(id: string, stage: Stage): void;
   setNote(id: string, note: string): void;
@@ -94,8 +94,16 @@ interface Actions {
 export type AppState = Persisted & Ui & Actions;
 
 let toastTimer: ReturnType<typeof setTimeout> | undefined;
-let hoverTimer: ReturnType<typeof setTimeout> | undefined;
-const HOVER_CLOSE_MS = 220;
+
+/** Map padding that keeps a selected pin clear of an overlaying drawer (the side drawer shrinks the map instead). */
+const drawerPadding = (drawer: DrawerStyle) =>
+  typeof window === "undefined" || window.innerWidth <= 860
+    ? { bottom: typeof window === "undefined" ? 0 : Math.round(window.innerHeight * 0.6) }
+    : drawer === "card"
+      ? { right: 390 }
+      : drawer === "sheet"
+        ? { bottom: Math.round(window.innerHeight * 0.52) }
+        : {};
 
 export const useApp = create<AppState>()(
   persist(
@@ -133,7 +141,8 @@ export const useApp = create<AppState>()(
         savedViews: [],
 
         selectedId: null,
-        previewId: null,
+        hover: null,
+        listHidden: false,
         mode: "map",
         sideOpen: false,
         filters: { q: "", type: "all", tlds: [], regions: [], verified: false, viewport: true, sort: "relevance" },
@@ -154,40 +163,28 @@ export const useApp = create<AppState>()(
         },
 
         select(id, fly) {
-          clearTimeout(hoverTimer);
-          set({ selectedId: id, previewId: null, sideOpen: false });
+          set({ selectedId: id, hover: null, sideOpen: false, listHidden: true });
           const i = world().byId[id];
-          if (fly && i) mapController.run((m) => m.flyTo(i.lat, i.lng, Math.max(m.zoom(), 5)));
+          if (!i) return;
+          const padding = drawerPadding(get().drawer);
+          // Let the layout settle (list folds, side drawer opens) before moving the camera.
+          setTimeout(
+            () =>
+              mapController.run((m) =>
+                fly ? m.flyTo(i.lat, i.lng, Math.max(m.zoom(), 5), padding) : m.ensureVisible(i.lat, i.lng, padding),
+              ),
+            fly ? 0 : 280,
+          );
         },
         closeDrawer() {
-          clearTimeout(hoverTimer);
-          set({ selectedId: null, previewId: null });
+          set({ selectedId: null, hover: null, listHidden: false });
         },
 
-        hoverEnter(id) {
-          clearTimeout(hoverTimer);
-          if (get().selectedId === id) {
-            set({ previewId: null });
-            return;
-          }
-          set({ previewId: id });
+        hoverEnter(id, x, y) {
+          set({ hover: { id, x, y } });
         },
         hoverLeave() {
-          clearTimeout(hoverTimer);
-          if (!get().previewId) return;
-          hoverTimer = setTimeout(() => set({ previewId: null }), HOVER_CLOSE_MS);
-        },
-        /** Pointer moved from the pin/card onto the previewed drawer: keep it open. */
-        holdPreview() {
-          clearTimeout(hoverTimer);
-        },
-        /** Interacting with a previewed drawer turns it into a pinned selection. */
-        pinPreview() {
-          const p = get().previewId;
-          if (p) {
-            clearTimeout(hoverTimer);
-            set({ selectedId: p, previewId: null });
-          }
+          if (get().hover) set({ hover: null });
         },
 
         addLead(targetId, domainId = null) {

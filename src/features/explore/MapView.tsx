@@ -146,7 +146,15 @@ export function MapView({ list, all, selected, plan, streets, demand, onView }: 
         const c = map.getCenter().wrap();
         return { lat: +c.lat.toFixed(4), lng: +c.lng.toFixed(4), zoom: +lz(map).toFixed(2) };
       },
-      flyTo: (lat, lng, zoom) => map.flyTo({ center: [lng, lat], zoom: (zoom ?? lz(map)) - LZ, duration: 600 }),
+      flyTo: (lat, lng, zoom, padding) =>
+        map.flyTo({ center: [lng, lat], zoom: (zoom ?? lz(map)) - LZ, duration: 600, padding: { top: 0, right: 0, bottom: 0, left: 0, ...padding } }),
+      ensureVisible: (lat, lng, padding = {}) => {
+        const p = map.project([lng, lat]);
+        const c = map.getCanvas();
+        const w = c.clientWidth, h = c.clientHeight, m = 60;
+        const inside = p.x > (padding.left ?? 0) + m && p.x < w - (padding.right ?? 0) - m && p.y > (padding.top ?? 0) + m && p.y < h - (padding.bottom ?? 0) - m;
+        if (!inside) map.easeTo({ center: [lng, lat], duration: 500, padding: { top: 0, right: 0, bottom: 0, left: 0, ...padding } });
+      },
       fitPoints: (pts, maxZoom) => {
         const b = new maplibregl.LngLatBounds();
         pts.forEach(([lat, lng]) => b.extend([lng, lat]));
@@ -343,7 +351,10 @@ export function MapView({ list, all, selected, plan, streets, demand, onView }: 
         select(i.id);
       });
       if (hover) {
-        d.addEventListener("mouseenter", () => hoverEnter(i.id));
+        d.addEventListener("mouseenter", () => {
+          const r = d.getBoundingClientRect();
+          hoverEnter(i.id, r.right, r.top + r.height / 2);
+        });
         d.addEventListener("mouseleave", () => hoverLeave());
       }
     };

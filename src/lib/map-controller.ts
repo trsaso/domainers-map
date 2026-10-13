@@ -5,9 +5,13 @@
  */
 import type { Camera } from "./types";
 
+export type Padding = { top?: number; right?: number; bottom?: number; left?: number };
+
 export interface MapApi {
   camera(): Camera;
-  flyTo(lat: number, lng: number, zoom?: number): void;
+  flyTo(lat: number, lng: number, zoom?: number, padding?: Padding): void;
+  /** Pan just enough to bring the point inside the padded viewport; no-op when it is already visible. */
+  ensureVisible(lat: number, lng: number, padding?: Padding): void;
   fitPoints(points: [number, number][], maxZoom: number): void;
   zoom(): number;
   isVisible(): boolean;
