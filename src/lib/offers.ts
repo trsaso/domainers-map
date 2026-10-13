@@ -1,6 +1,6 @@
 import { money } from "./format";
 import type { DomainItem, Offer } from "./types";
-import { DB, ME } from "./world";
+import { DB, ME, remoteAuctions } from "./world";
 
 /**
  * Offers + proxy bids. Each bidder's highest max counts; the leader pays one increment
@@ -8,13 +8,30 @@ import { DB, ME } from "./world";
  */
 export type OfferBook = Record<string, Offer[]>;
 
+/**
+ * Member listings keep their offers on the server; the browser only gets public totals (plus "do I lead"
+ * and my own max). Those totals are fed in here so price labels, counts and statuses work unchanged.
+ */
+export interface ServerStat {
+  bidders: number;
+  offers: number;
+  price: number;
+  i_lead: boolean;
+  my_max: number | null;
+}
+let SERVER: Record<string, ServerStat> = {};
+export const setServerStats = (s: Record<string, ServerStat>) => (SERVER = s);
+export const serverStat = (id: string): ServerStat | undefined => SERVER[id];
+
 export function offersOf(id: string, local: OfferBook): Offer[] {
+  const s = SERVER[id];
+  if (s) return Array.from({ length: s.offers }, () => ({ bidderId: "", amount: s.price, max: s.price, at: "" }));
   return [...(DB.offers[id] || []), ...(local[id] || [])].sort(
     (a, b) => a.at.localeCompare(b.at) || a.amount - b.amount,
   );
 }
 
-export const auctionOf = (id: string) => DB.auctions[id] || null;
+export const auctionOf = (id: string): import("./types").Auction | null => DB.auctions[id] || remoteAuctions()[id] || null;
 
 export const increment = (v: number) => (v >= 500000 ? 10000 : v >= 100000 ? 5000 : v >= 20000 ? 1000 : 500);
 
@@ -25,6 +42,13 @@ export interface Leading extends Offer {
 }
 
 export function leading(id: string, local: OfferBook): Leading | null {
+  const s = SERVER[id];
+  if (s) {
+    // Bidder identities stay private; only "me vs. someone else" is known.
+    const lead: Offer = { bidderId: s.i_lead ? ME : "other", amount: s.price, max: s.i_lead ? (s.my_max ?? s.price) : s.price, at: "" };
+    const mine: Offer[] = !s.i_lead && s.my_max != null ? [{ bidderId: ME, amount: s.my_max, max: s.my_max, at: "" }] : [];
+    return { ...lead, price: s.price, count: s.bidders, bidders: [lead, ...mine] };
+  }
   const o = offersOf(id, local);
   if (!o.length) return null;
   const byB: Record<string, Offer> = {};

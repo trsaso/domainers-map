@@ -6,6 +6,7 @@ import { feature } from "topojson-client";
 import type { FeatureCollection, Geometry } from "geojson";
 import type { Topology } from "topojson-specification";
 import { COUNTRY, ISO, codeForIso, project, unproject } from "@/lib/geo";
+import { unwrapAntimeridian } from "@/lib/geo-shapes";
 import { esc, initials } from "@/lib/format";
 import { mapController } from "@/lib/map-controller";
 import type { Item, Plan, PersonItem } from "@/lib/types";
@@ -51,26 +52,6 @@ function avatarHTML(i: PersonItem) {
       ? `<img src="${esc(i.avatar)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">`
       : ""
   }</span>`;
-}
-
-/**
- * Natural Earth rings that cross ±180° (Russia, Fiji) jump from 180 to -180 between vertices, which a
- * planar renderer draws as a band across the whole map. Keep each ring continuous instead.
- */
-function unwrapAntimeridian(g: Geometry): Geometry {
-  const ring = (r: number[][]) => {
-    let prev: number | null = null;
-    return r.map(([lng, lat]) => {
-      let x = lng;
-      if (prev !== null) while (x - prev > 180) x -= 360;
-      if (prev !== null) while (x - prev < -180) x += 360;
-      prev = x;
-      return [x, lat];
-    });
-  };
-  if (g.type === "Polygon") return { ...g, coordinates: g.coordinates.map(ring) };
-  if (g.type === "MultiPolygon") return { ...g, coordinates: g.coordinates.map((p) => p.map(ring)) };
-  return g;
 }
 
 export function MapView({ list, all, selected, plan, streets, demand, onView }: Props) {
@@ -261,6 +242,7 @@ export function MapView({ list, all, selected, plan, streets, demand, onView }: 
     const fill: unknown[] = ["match", ["get", "iso"]];
     const line: unknown[] = ["match", ["get", "iso"]];
     Object.entries(counts).forEach(([code, n]) => {
+      if (!ISO[code]) return;
       fill.push(ISO[code], `rgba(194,141,65,${(0.12 + 0.5 * (n / mx)).toFixed(3)})`);
       line.push(ISO[code], "rgba(194,141,65,.55)");
     });

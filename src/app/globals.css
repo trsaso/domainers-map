@@ -312,3 +312,29 @@
   .pane.sel .pane-left { display: none; } .pane.sel .pane-main { display: block; }
   .pane-main.solo { display: block; padding: 20px 16px; }
 }
+
+/* account (top bar) */
+.top .account { display: flex; align-items: center; flex: none; }
+.top .proto + .account { margin-left: 4px; }
+.menu-wrap { position: relative; }
+.menu-wrap > .avatar { padding: 0; cursor: pointer; }
+.menu { position: absolute; right: 0; top: calc(100% + 8px); z-index: 1000; min-width: 200px; display: flex; flex-direction: column; padding: 6px; background: var(--surface); border: 1px solid var(--divider); border-radius: var(--r-lg); box-shadow: var(--shadow); }
+.menu-head { display: flex; flex-direction: column; padding: 6px 10px 8px; border-bottom: 1px solid var(--divider); margin-bottom: 4px; }
+.menu-head b { font-family: var(--heading); font-size: 16px; }
+.menu-head span { font-size: 12px; }
+.menu a, .menu button { display: block; text-align: left; padding: 7px 10px; border-radius: var(--r); color: var(--text); text-decoration: none; font-size: 13px; border: 0; }
+.menu a:hover, .menu button:hover { background: rgba(239,233,225,.06); color: var(--accent); }
+@media (max-width: 860px) { .top .account { margin-left: auto; } }
+.me-card.signin-card { display: flex; flex-direction: column; gap: 8px; align-items: stretch; cursor: default; }
+.me-card.signin-card:hover { border-color: var(--divider); }
+
+/* forms (profile, listings) */
+.form { max-width: 860px; }
+.field { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.field-label { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: var(--faint); }
+.field input, .field select, .field textarea { width: 100%; min-height: 36px; padding: 6px 10px; background: transparent; border: 1px solid var(--divider); border-radius: var(--r); caret-color: var(--accent); }
+.field select option { background: var(--bg); }
+.field input:focus, .field select:focus, .field textarea:focus { border-color: var(--accent); outline: none; }
+.field input:disabled { color: var(--muted); }
+.form-error { color: #e07b5a; font-size: 13px; }
+.notice { padding: 10px 14px; border: 1px solid var(--accent-deep); border-radius: var(--r); background: rgba(194,141,65,.07); font-size: 13px; }

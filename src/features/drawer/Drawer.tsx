@@ -10,6 +10,10 @@ import { useApp, useWorld } from "@/store/app-store";
 import { Av, TierChip } from "@/features/common/ui";
 import { useGo } from "@/features/common/nav";
 import { OfferSection } from "./OfferSection";
+import { ServerOfferSection } from "./ServerOfferSection";
+import { deleteDomain } from "@/lib/remote";
+import Link from "next/link";
+import { useState } from "react";
 
 /** Details drawer for the selected item: opened by a click, closed with ✕, Esc or a click on empty map. */
 export function Drawer({ item }: { item: Item }) {
@@ -231,7 +235,10 @@ function DomainDrawer({ i }: { i: DomainItem }) {
   return (
     <>
       <div className="d-head">
-        <div className="kicker">domain · {i.category}{own ? " · yours" : ""}</div>
+        <div className="kicker flex flex-wrap items-center gap-1.5">
+          domain · {i.category}
+          {own ? " · yours" : ""} <ListingBadges d={i} />
+        </div>
         <HeadTools id={i.id} label={i.label} />
         <div className="d-title mono">{i.name}</div>
         <div className="d-sub">
@@ -245,12 +252,15 @@ function DomainDrawer({ i }: { i: DomainItem }) {
       <div className="d-body">
         <div className="d-sec">
           <div className="stats">
-            <div className="stat"><b>{i.status === "make-offer" ? "Offer" : i.status === "sold" ? "Sold" : money(i.askingUSD)}</b><span>asking</span></div>
+            <div className="stat">
+              <b>{i.status === "sold" ? "Sold" : i.saleType === "auction" ? "Auction" : i.status === "make-offer" ? "Offer" : money(i.askingUSD)}</b>
+              <span>{i.saleType === "auction" ? "timed bidding" : i.status === "make-offer" && i.minOfferUSD ? `min ${money(i.minOfferUSD)}` : "asking"}</span>
+            </div>
             <div className="stat"><b>{buyers.filter((b) => b.score >= 50).length}</b><span>strong buyers</span></div>
             <div className="stat"><b className="mono" style={{ fontSize: 18 }}>{i.tld}</b><span>extension</span></div>
           </div>
         </div>
-        <OfferSection key={i.id} d={i} />
+        {i.member ? <ServerOfferSection key={i.id} d={i} /> : <OfferSection key={i.id} d={i} />}
         <div className="d-sec">
           <h4>Likely end-user buyers</h4>
           {buyers.map((b) => (
@@ -274,7 +284,9 @@ function DomainDrawer({ i }: { i: DomainItem }) {
         </div>
       </div>
       <div className="d-actions">
-        {own ? (
+        {own && i.member ? (
+          <OwnerActions d={i} onFindBuyers={findBuyers} />
+        ) : own ? (
           <>
             <button className="btn primary" onClick={() => toast("Listing editor ships with inventory CRUD")}>Edit listing</button>
             <button className="btn" onClick={findBuyers}>Find buyers</button>
@@ -314,5 +326,56 @@ function EventDrawer({ i }: { i: EventItem }) {
         <button className="btn primary" onClick={() => toast("RSVP recorded locally")}>I&apos;m attending</button>
       </div>
     </>
+  );
+}
+
+/** "Sample" for bundled demo listings, "Unverified" until a member proves ownership by DNS. */
+export function ListingBadges({ d }: { d: DomainItem }) {
+  if (d.sample) return <span className="tag" title="Demo data — not a real listing">Sample</span>;
+  if (d.member && !d.verified) return <span className="tag" title="Ownership not yet confirmed by DNS">Unverified</span>;
+  if (d.member && d.verified) return <span className="tier dns">DNS verified</span>;
+  return null;
+}
+
+function OwnerActions({ d, onFindBuyers }: { d: DomainItem; onFindBuyers(): void }) {
+  const [confirm, setConfirm] = useState(false);
+  const [err, setErr] = useState("");
+  const { refreshRemote, closeDrawer, toast } = useApp.getState();
+  if (confirm)
+    return (
+      <div className="flex w-full flex-col gap-2">
+        <div className="text-[13px]">
+          Delete <span className="mono">{d.name}</span>? People with open offers are notified.
+        </div>
+        <div className="flex gap-2">
+          <button
+            className="btn"
+            onClick={async () => {
+              try {
+                await deleteDomain(d.id, d.name);
+                closeDrawer();
+                await refreshRemote();
+                toast(`Removed ${d.name}`);
+              } catch (e) {
+                setErr((e as Error).message);
+                setConfirm(false);
+              }
+            }}
+          >
+            Delete
+          </button>
+          <button className="btn ghost" onClick={() => setConfirm(false)}>Keep it</button>
+        </div>
+      </div>
+    );
+  return (
+    <div className="flex w-full flex-col gap-2">
+      {err && <div className="form-error text-xs">{err}</div>}
+      <div className="flex gap-2">
+        <Link className="btn primary flex-1 no-underline" href={`/my-domains?edit=${d.id}`}>Edit listing</Link>
+        <button className="btn flex-1" onClick={onFindBuyers}>Find buyers</button>
+        <button className="btn ghost text-muted" onClick={() => setConfirm(true)} title="Delete listing">Delete</button>
+      </div>
+    </div>
   );
 }

@@ -6,6 +6,7 @@ import { ME } from "@/lib/world";
 import { useApp, useWorld } from "@/store/app-store";
 import { PageHead } from "@/features/common/ui";
 import { useOpenOnMap } from "@/features/common/nav";
+import { markNotificationsRead } from "@/lib/remote";
 
 export function OffersView() {
   const w = useWorld();
@@ -30,6 +31,7 @@ export function OffersView() {
             </button>
           }
         />
+        <ServerNotices />
         {notifs.length > 0 && (
           <div className="mb-[22px] rounded border border-divider px-3.5 py-1">
             {notifs.map((n, k) => (
@@ -85,5 +87,44 @@ export function OffersView() {
         )}
       </div>
     </section>
+  );
+}
+
+/** Outbid alerts, offers received and removed listings for the signed-in member (stored on the server). */
+function ServerNotices() {
+  const w = useWorld();
+  const open = useOpenOnMap();
+  const list = useApp((s) => s.serverNotifs).slice(0, 10);
+  const set = useApp((s) => s.set);
+  if (!list.length) return null;
+  const byName = Object.fromEntries(w.domains.map((d) => [d.name, d.id]));
+  return (
+    <div className="mb-[22px] rounded border border-divider px-3.5 py-1">
+      {list.map((n) => (
+        <div key={n.id} className="row text-[13px]">
+          <span>
+            {!n.read && <span className={n.kind === "outbid" ? "status-out" : "status-lead"}>● </span>}
+            {n.message}
+          </span>
+          <span className="flex items-center gap-2.5">
+            <span className="muted text-[11px]">{new Date(n.created_at).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}</span>
+            {n.domain && byName[n.domain] && (
+              <button className="btn sm ghost" onClick={() => open(byName[n.domain!])}>{n.kind === "outbid" ? "Raise" : "View"}</button>
+            )}
+          </span>
+        </div>
+      ))}
+      <div className="py-2">
+        <button
+          className="btn sm ghost"
+          onClick={async () => {
+            await markNotificationsRead();
+            set("serverNotifs", list.map((n) => ({ ...n, read: true })));
+          }}
+        >
+          Mark all read
+        </button>
+      </div>
+    </div>
   );
 }

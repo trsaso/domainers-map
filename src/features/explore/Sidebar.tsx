@@ -131,6 +131,8 @@ export function Sidebar({ list }: { list: Item[] }) {
             >
               <div className="k">
                 <b>{i.kind}</b>
+                {(i.kind === "investor" || i.kind === "broker" || i.kind === "domain") && i.sample && <span className="tag py-0 text-[9px]">Sample</span>}
+                {i.kind === "domain" && i.member && !i.verified && <span className="tag py-0 text-[9px]" title="Ownership not yet confirmed by DNS">Unverified</span>}
                 {watch[i.id] && <span className="text-accent-hi" title="On your watchlist">★</span>}
                 {i.sponsored && <span className="spons">Sponsored</span>}
                 {(i.kind === "investor" || i.kind === "broker") && <TierChip i={i} />}

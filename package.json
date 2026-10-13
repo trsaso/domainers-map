@@ -7,11 +7,14 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "node --test tests/*.test.mjs"
   },
   "dependencies": {
     "@fontsource/cormorant-garamond": "^5.2.6",
     "@fontsource/lora": "^5.2.6",
+    "@supabase/ssr": "^0.12.7",
+    "@supabase/supabase-js": "^2.117.2",
     "maplibre-gl": "^5.7.1",
     "next": "15.5.9",
     "react": "^19.1.1",
@@ -21,6 +24,7 @@
     "zustand": "^5.0.8"
   },
   "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
     "@types/geojson": "^7946.0.16",
     "@types/node": "^22.18.0",
     "@types/react": "^19.1.12",

@@ -6,6 +6,8 @@ import { auctionOf, endsIn, leading, minOffer, myStatus } from "@/lib/offers";
 import type { DomainItem } from "@/lib/types";
 import { ME } from "@/lib/world";
 import { useApp, useWorld } from "@/store/app-store";
+import { supabaseConfigured } from "@/lib/supabase/config";
+import { SignInButton } from "@/features/auth/AccountMenu";
 
 const endsAt = (iso: string) =>
   new Date(iso).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
@@ -17,7 +19,7 @@ export function OfferSection({ d }: { d: DomainItem }) {
   const l = leading(d.id, offers);
   const a = auctionOf(d.id);
   const st = myStatus(d.id, offers);
-  const own = d.ownerId === ME;
+  const own = !!ME && d.ownerId === ME;
   const min = minOffer(d, offers);
   const [amt, setAmt] = useState(String(min));
   const [max, setMax] = useState("");
@@ -38,6 +40,15 @@ export function OfferSection({ d }: { d: DomainItem }) {
       {third}
     </div>
   );
+
+  if (supabaseConfigured && !ME)
+    return (
+      <div className="d-sec">
+        <h4>Offers</h4>
+        <div className="muted text-[13px]">This is a sample listing for the demo. Sign in with X to try offers here, or to list and bid on real domains.</div>
+        <SignInButton className="btn sm primary mt-3" />
+      </div>
+    );
 
   if (own)
     return (

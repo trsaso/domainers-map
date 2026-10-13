@@ -1,8 +1,10 @@
 "use client";
 
 import { useApp, useWorld } from "@/store/app-store";
-import { Av, Seg } from "@/features/common/ui";
+import { Seg } from "@/features/common/ui";
 import { VIEWS, type View } from "@/features/common/nav";
+import { AccountMenu } from "@/features/auth/AccountMenu";
+import { supabaseConfigured } from "@/lib/supabase/config";
 
 export function TopBar({ view }: { view: string }) {
   const w = useWorld();
@@ -24,16 +26,14 @@ export function TopBar({ view }: { view: string }) {
           <span>Drawer</span>
           <Seg value={drawer} label="Drawer" onChange={(v) => set("drawer", v)} options={[["side", "Side"], ["card", "Card"], ["sheet", "Sheet"]]} />
         </label>
-        <div className="live" title="Sample counters">
+        <div className="live" title={supabaseConfigured ? "Members on the map" : "Sample counters"}>
           <i />
           <span>
             {3 + Math.floor(n / 8)} online · {n} members
           </span>
         </div>
-        <span className="avatar" title="Signed in — prototype">
-          <Av i={w.me} className="contents" />
-        </span>
       </div>
+      <AccountMenu />
     </header>
   );
 }

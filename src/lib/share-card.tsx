@@ -32,7 +32,7 @@ export async function renderShareCard(handle: string) {
     font("cormorant-garamond", "cormorant-garamond-latin-600-normal.woff"),
     font("lora", "lora-latin-400-normal.woff"),
   ]);
-  const found = findProfile(handle);
+  const found = await findProfile(handle);
   const fonts = [
     { name: "Cormorant", data: h400, weight: 400 as const },
     { name: "Cormorant", data: h600, weight: 600 as const },

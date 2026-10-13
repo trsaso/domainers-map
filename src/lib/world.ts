@@ -1,10 +1,12 @@
 import seedJson from "@/data/seed.json";
-import { COUNTRY, REGION } from "./geo";
+import { COUNTRY, REGION, ensureCountry } from "./geo";
 import { GROW, TOP_N, isDone } from "./grow";
 import type {
   CompanyItem, DomainItem, EventItem, EventRecord, Item, Person, PersonItem, Plan, Seed,
 } from "./types";
 import { isPerson } from "./types";
+import type { Auction, Domain } from "./types";
+import { supabaseConfigured } from "./supabase/config";
 
 /**
  * Data access for the prototype. Everything business-shaped comes from data/seed.json —
@@ -12,7 +14,27 @@ import { isPerson } from "./types";
  */
 const seed = seedJson as unknown as Seed;
 
-export const ME = seed._me || "p1";
+/**
+ * The signed-in member's profile id. In demo mode (no Supabase configured) it's the seed's sample profile;
+ * with a backend it's "" until someone signs in with X. Exported as a live binding — read it, don't copy it.
+ */
+export let ME = supabaseConfigured ? "" : seed._me || "p1";
+
+/** Real members and their listings, loaded from the database (see lib/remote.ts). */
+let REMOTE: { people: Person[]; domains: Domain[]; auctions: Record<string, Auction> } = { people: [], domains: [], auctions: {} };
+let rev = 0;
+
+export function setMe(id: string) {
+  if (ME === id) return;
+  ME = id;
+  rev++;
+}
+export function setRemote(r: typeof REMOTE) {
+  REMOTE = r;
+  rev++;
+}
+export const remoteAuctions = () => REMOTE.auctions;
+export const snapshotRemote = () => REMOTE;
 
 export const DB = {
   people: seed.people,
@@ -26,8 +48,8 @@ export const DB = {
 
 const suffix = (name: string) => "." + name.split(".").slice(1).join(".");
 
-function calcPoints(p: Person, actions: Record<string, boolean>) {
-  const listed = DB.domains.filter((d) => d.ownerId === p.id).length;
+function calcPoints(p: Person, actions: Record<string, boolean>, allDomains: Domain[]) {
+  const listed = allDomains.filter((d) => d.ownerId === p.id).length;
   const offersMade = Object.values(DB.offers).flat().filter((o) => o.bidderId === p.id).length;
   const bonus = p.id === ME ? GROW.filter((a) => isDone(a, actions)).reduce((s, a) => s + (a.pts || 0), 0) : 0;
   return Math.round(
@@ -49,24 +71,39 @@ export interface World {
   events: EventItem[];
   items: Item[];
   byId: Record<string, Item>;
-  me: PersonItem;
+  /** The signed-in member, or null when signed out (or not yet placed on the map). */
+  me: PersonItem | null;
 }
 
 let memo: { key: string; world: World } | null = null;
 
 /** Builds the derived view of the seed: points and ranks (which depend on the user's completed Grow actions) and sold state. */
 export function getWorld(actions: Record<string, boolean>, sold: string[]): World {
-  const key = JSON.stringify([actions, sold]);
+  const key = JSON.stringify([actions, sold, rev, ME]);
   if (memo && memo.key === key) return memo.world;
 
-  const people: PersonItem[] = DB.people.map((p) => ({
+  // Real members appear once they have a location; their listings ride on their pin.
+  const remotePeople = REMOTE.people.filter((p) => Number.isFinite(p.lat) && Number.isFinite(p.lng));
+  const placed = new Set(remotePeople.map((p) => p.id));
+  // With real accounts, the seed's stand-in for "you" goes away, and a real listing hides a sample one of the same name.
+  const placeholder = supabaseConfigured ? seed._me : "";
+  const memberDomains = REMOTE.domains.filter((d) => placed.has(d.ownerId) && d.saleType !== "unlisted");
+  const taken = new Set(memberDomains.map((d) => d.name));
+  const allPeople: Person[] = [...DB.people.filter((p) => p.id !== placeholder).map((p) => ({ ...p, sample: supabaseConfigured })), ...remotePeople];
+  const allDomains: Domain[] = [
+    ...DB.domains.filter((d) => d.ownerId !== placeholder && !taken.has(d.name)).map((d) => ({ ...d, sample: supabaseConfigured })),
+    ...memberDomains,
+  ];
+  allPeople.forEach((p) => ensureCountry(p.country, p.lng, p.lat));
+
+  const people: PersonItem[] = allPeople.map((p) => ({
     ...p,
     kind: p.type,
     label: p.name,
     sub: p.org,
     loc: `${p.city}, ${COUNTRY[p.country]}`,
     region: REGION[p.country],
-    points: calcPoints(p, actions),
+    points: calcPoints(p, actions, allDomains),
     rank: 0,
   }));
   [...people].sort((a, b) => b.points - a.points).forEach((p, i) => (p.rank = i + 1));
@@ -83,7 +120,7 @@ export function getWorld(actions: Record<string, boolean>, sold: string[]): Worl
   }));
 
   const soldSet = new Set(sold);
-  const domains: DomainItem[] = DB.domains.map((d) => {
+  const domains: DomainItem[] = allDomains.map((d) => {
     const o = personById[d.ownerId];
     return {
       ...d,
@@ -114,7 +151,7 @@ export function getWorld(actions: Record<string, boolean>, sold: string[]): Worl
 
   const items: Item[] = [...people, ...companies, ...domains, ...events];
   const byId = Object.fromEntries(items.map((i) => [i.id, i]));
-  const world = { people, companies, domains, events, items, byId, me: personById[ME] };
+  const world = { people, companies, domains, events, items, byId, me: personById[ME] ?? null };
   memo = { key, world };
   return world;
 }

@@ -15,7 +15,7 @@ export function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
-  const found = findProfile((await params).handle);
+  const found = await findProfile((await params).handle);
   if (!found) return { title: "Not found · Domainers Map" };
   const { p, w } = found;
   const listed = w.domains.filter((d) => d.ownerId === p.id && d.status !== "sold");
@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 }
 
 export default async function PublicProfile({ params, searchParams }: Params) {
-  const found = findProfile((await params).handle);
+  const found = await findProfile((await params).handle);
   if (!found) notFound();
   const { invite } = await searchParams;
   const { p, w } = found;

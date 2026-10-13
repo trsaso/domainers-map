@@ -8,7 +8,13 @@ import { mapController } from "@/lib/map-controller";
 import { increment, leading, myStatus, type OfferBook } from "@/lib/offers";
 import type { Camera, DrawerStyle, Item, Layout, Lead, Notif, Plan, Stage } from "@/lib/types";
 import { describeChange, snapshot, type WatchSnap } from "@/lib/watch";
-import { DB, ME, getWorld } from "@/lib/world";
+import { DB, ME, getWorld, setMe, setRemote } from "@/lib/world";
+import { setServerStats } from "@/lib/offers";
+import { getSupabase } from "@/lib/supabase/client";
+import {
+  loadNotifications, loadRemote, toAuction, toDomain, toPerson,
+  type DomainRow, type NotificationRow, type ProfileRow,
+} from "@/lib/remote";
 
 export interface Filters {
   q: string;
@@ -63,6 +69,15 @@ interface Ui {
   toastOn: boolean;
   /** Bumped when filters are replaced wholesale (saved view applied) so uncontrolled inputs reset. */
   filtersRev: number;
+  /** Signed-in member (Sign in with X). Null when signed out or in demo mode. */
+  session: { userId: string; profile: ProfileRow | null } | null;
+  /** True once the first sign-in check has finished (avoids flashing "Sign in"). */
+  authReady: boolean;
+  /** Bumped whenever members / listings / offer totals reload from the database. */
+  remoteRev: number;
+  /** Raw rows for the signed-in member's own listings (includes unlisted ones). */
+  myDomains: DomainRow[];
+  serverNotifs: NotificationRow[];
 }
 
 interface Actions {
@@ -89,6 +104,9 @@ interface Actions {
   saveView(): void;
   applyView(id: string): void;
   deleteView(id: string): void;
+  /** Reload the signed-in user, members, listings and offer totals from the database. */
+  refreshRemote(): Promise<void>;
+  signOut(): Promise<void>;
 }
 
 export type AppState = Persisted & Ui & Actions;
@@ -151,6 +169,11 @@ export const useApp = create<AppState>()(
         toastMsg: "",
         toastOn: false,
         filtersRev: 0,
+        session: null,
+        authReady: false,
+        remoteRev: 0,
+        myDomains: [],
+        serverNotifs: [],
 
         set: (k, v) => set({ [k]: v } as Partial<AppState>),
         setFilters: (p) => set((s) => ({ filters: { ...s.filters, ...p } })),
@@ -331,6 +354,38 @@ export const useApp = create<AppState>()(
           if (cam) mapController.run((m) => m.flyTo(cam.lat, cam.lng, cam.zoom));
         },
         deleteView: (id) => set((s) => ({ savedViews: s.savedViews.filter((v) => v.id !== id) })),
+
+        async refreshRemote() {
+          const sb = getSupabase();
+          if (!sb) {
+            set({ authReady: true });
+            return;
+          }
+          const [{ data: auth }, data] = await Promise.all([sb.auth.getUser(), loadRemote(sb)]);
+          const uid = auth.user?.id ?? null;
+          const profile = uid ? data.profiles.find((p) => p.id === uid) ?? null : null;
+          const auctions: Record<string, ReturnType<typeof toAuction> & object> = {};
+          data.domains.forEach((d) => {
+            const a = toAuction(d);
+            if (a) auctions[d.id] = a;
+          });
+          setRemote({ people: data.profiles.filter((p) => p.onboarded).map(toPerson), domains: data.domains.map(toDomain), auctions });
+          setServerStats(data.stats);
+          setMe(uid ?? "");
+          set((s) => ({
+            session: uid ? { userId: uid, profile } : null,
+            authReady: true,
+            remoteRev: s.remoteRev + 1,
+            myDomains: uid ? data.domains.filter((d) => d.owner_id === uid) : [],
+          }));
+          if (uid) set({ serverNotifs: await loadNotifications() });
+        },
+        async signOut() {
+          await getSupabase()?.auth.signOut();
+          set({ selectedId: null, myDomains: [], serverNotifs: [] });
+          await get().refreshRemote();
+          get().toast("Signed out");
+        },
       };
     },
     {
@@ -357,5 +412,6 @@ export const useApp = create<AppState>()(
 export function useWorld() {
   const actions = useApp((s) => s.actions);
   const sold = useApp((s) => s.sold);
+  useApp((s) => s.remoteRev); // re-render when database data reloads
   return getWorld(actions, sold);
 }

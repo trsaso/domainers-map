@@ -1,6 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { supabaseConfigured } from "@/lib/supabase/config";
+import { SignInButton } from "@/features/auth/AccountMenu";
 import type { CSSProperties } from "react";
 import { useApp, useWorld } from "@/store/app-store";
 import { Av } from "@/features/common/ui";
@@ -22,7 +25,12 @@ const ITEMS: { v: View; label: string; ic: string; icStyle?: CSSProperties; coun
 export function Rail({ view }: { view: string }) {
   const w = useWorld();
   const leads = useApp((s) => s.leads.length);
-  const unread = useApp((s) => s.notifs.filter((n) => !n.read && (n.kind ?? "outbid") === "outbid").length);
+  const unread = useApp(
+    (s) => s.notifs.filter((n) => !n.read && (n.kind ?? "outbid") === "outbid").length + s.serverNotifs.filter((n) => !n.read && n.kind !== "watch").length,
+  );
+  const session = useApp((s) => s.session);
+  const myCount = useApp((s) => s.myDomains.length);
+  const router = useRouter();
   const unreadWatch = useApp((s) => s.notifs.filter((n) => !n.read && n.kind === "watch").length);
   const watching = useApp((s) => Object.keys(s.watch).length);
   const toast = useApp((s) => s.toast);
@@ -56,19 +64,44 @@ export function Rail({ view }: { view: string }) {
       </div>
       {ITEMS.map(link)}
       <div className="sep" />
+      {session && (
+        <Link href="/my-domains" className="nv" aria-current={view === "my-domains" ? "page" : undefined}>
+          <span className="ic sq" style={{ borderStyle: "dashed" }} />
+          My domains
+          <span className="count">{myCount}</span>
+        </Link>
+      )}
       {link({ v: "grow", label: "Grow", ic: "", icStyle: { borderStyle: "dotted" } })}
-      <button className="btn primary cta" onClick={() => toast("Listing editor ships with inventory CRUD")}>
+      <button
+        className="btn primary cta"
+        onClick={() => (supabaseConfigured ? router.push("/my-domains?add=1") : toast("Listing needs sign-in, which isn't set up on this site yet"))}
+      >
         + List a domain
       </button>
-      <button className="me-card" onClick={() => select(me.id, true)}>
-        <Av i={me} />
-        <span>
-          <span className="n">{me.name}</span>
-          <div className="s">
-            #{me.rank} · {me.points} pts{me.xHandle ? " · @" + me.xHandle : ""}
-          </div>
-        </span>
-      </button>
+      {me ? (
+        <button className="me-card" onClick={() => select(me.id, true)}>
+          <Av i={me} />
+          <span>
+            <span className="n">{me.name}</span>
+            <div className="s">
+              #{me.rank} · {me.points} pts{me.xHandle ? " · @" + me.xHandle : ""}
+            </div>
+          </span>
+        </button>
+      ) : session ? (
+        <Link href="/profile" className="me-card no-underline">
+          <Av i={{ label: session.profile?.name ?? "You", avatar: session.profile?.avatar_url ?? undefined }} />
+          <span>
+            <span className="n text-text">{session.profile?.name}</span>
+            <div className="s">Add your city to appear on the map →</div>
+          </span>
+        </Link>
+      ) : supabaseConfigured ? (
+        <div className="me-card signin-card">
+          <span className="text-[12px] text-muted">Join the map: list your domains, get offers, climb the board.</span>
+          <SignInButton className="btn sm primary w-full" />
+        </div>
+      ) : null}
     </nav>
   );
 }

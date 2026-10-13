@@ -15,6 +15,8 @@ export const VIEWS = {
   today: "Today",
   leads: "Leads",
   grow: "Grow",
+  "my-domains": "My domains",
+  profile: "Profile",
 } as const;
 export type View = keyof typeof VIEWS;
 
