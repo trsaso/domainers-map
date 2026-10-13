@@ -1,6 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { COUNTRY } from "@/lib/geo";
+import { supabaseConfigured } from "@/lib/supabase/config";
+import type { PersonItem } from "@/lib/types";
+import { SignInButton } from "@/features/auth/AccountMenu";
 import { GROW, TOP_N, isDone } from "@/lib/grow";
 import type { Plan } from "@/lib/types";
 import { profilePath, xIntent } from "@/lib/profile";
@@ -9,7 +13,7 @@ import { useApp, useWorld } from "@/store/app-store";
 import { APin, Av, PageHead, TierChip } from "@/features/common/ui";
 
 function Tile({ k, label, ok, note }: { k: "city" | "country" | "world"; label: string; ok: boolean; note: string }) {
-  const me = useWorld().me;
+  const me = useWorld().me!;
   const size = k === "city" ? 40 : k === "country" ? 48 : 60;
   return (
     <div
@@ -52,12 +56,33 @@ function PlanCard({ id, name, price, perks, current, popular }: { id: Exclude<Pl
 
 export function GrowView() {
   const w = useWorld();
+  const session = useApp((s) => s.session);
+  if (w.me) return <GrowBody me={w.me} />;
+  return (
+    <section className="view on">
+      <div className="pane-main solo">
+        <PageHead
+          kicker="Grow"
+          title="Your spot on the map"
+          sub="Points come from verification, listings, offers, attested deals and activity. They decide how big your pin is and where you show up — city, country or worldwide."
+        />
+        {session ? (
+          <Link className="btn primary" href="/profile">Add your city to get on the map</Link>
+        ) : supabaseConfigured ? (
+          <SignInButton className="btn primary" label="Sign in with X to start" />
+        ) : null}
+      </div>
+    </section>
+  );
+}
+
+function GrowBody({ me }: { me: PersonItem }) {
+  const w = useWorld();
   const actions = useApp((s) => s.actions);
   const plan = useApp((s) => s.plan);
   const offers = useApp((s) => s.offers);
   const leads = useApp((s) => s.leads);
   const { doAction, toast } = useApp.getState();
-  const me = w.me;
   const ranked = [...w.people].sort((a, b) => b.points - a.points);
   const top20 = ranked[Math.min(TOP_N - 1, ranked.length - 1)];
   const above = ranked[me.rank - 2];

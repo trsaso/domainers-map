@@ -22,6 +22,10 @@ export interface Person {
   xHandle?: string;
   avatar?: string;
   joined: number;
+  /** Bundled demo member (labelled "Sample" once real accounts exist). */
+  sample?: boolean;
+  /** Real member who signed in with X (stored in the database). */
+  member?: boolean;
 }
 
 export interface Company {
@@ -48,6 +52,14 @@ export interface Domain {
   category: string;
   status: DomainStatus;
   keywords: string[];
+  /** Bundled demo listing. */
+  sample?: boolean;
+  /** Listed by a real member (stored in the database; offers go through the server). */
+  member?: boolean;
+  /** Ownership proven by DNS (member listings only). */
+  verified?: boolean;
+  saleType?: "buy_now" | "offer" | "auction" | "unlisted";
+  minOfferUSD?: number | null;
 }
 
 /** Seed events carry their format in `kind`; the data layer renames it to `format`. */

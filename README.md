@@ -10,6 +10,7 @@ npm install
 npm run dev        # http://localhost:3000 → /explore
 npm run build && npm start
 npm run typecheck
+npm test           # database permission + bidding rules (PGlite)
 ```
 
 ## Structure
@@ -40,6 +41,25 @@ src/
 
 To connect a backend later, replace `lib/world.ts` (and the store actions that mutate
 offers/leads) with API calls. Components only consume the `World` shape.
+
+## Accounts and shared listings (Supabase)
+
+With `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` set, the app adds:
+
+- **Sign in with X.** A profile is created from the X account (name, handle, picture). New members
+  then add their city and pin on `/profile`.
+- **My domains** (`/my-domains`). Add, edit, delete or bulk add listings. Each listing is Buy now,
+  Make offer, Auction (reserve, soft close) or Unlisted. Listed names are visible to everyone; only
+  the owner can change them. New listings are marked **Unverified** until DNS verification ships.
+- **Shared offers and bids.** These go through `place_offer()` on the server, which applies the minimum,
+  runs proxy bidding, keeps maximums private, extends auctions on late bids (soft close), and notifies
+  the outbid leader and the owner. Owners accept the high offer from the drawer.
+- **Sample data.** The demo members stay, labelled **Sample**. The seed's placeholder profile is dropped,
+  and a real listing hides a sample one with the same name.
+
+Schema and permissions are in `supabase/migrations/`; setup steps are in [SETUP.md](SETUP.md).
+`npm test` runs the permission and bidding rules against those migrations in PGlite (in-process
+Postgres). Without the env vars, the app stays in demo mode.
 
 ## Features added after the first build
 

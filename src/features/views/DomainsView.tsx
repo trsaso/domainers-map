@@ -7,6 +7,7 @@ import { statLine } from "@/lib/world";
 import { useApp, useWorld, type DomainFilters } from "@/store/app-store";
 import { APin, PageHead, SearchBox, Seg } from "@/features/common/ui";
 import { useOpenOnMap } from "@/features/common/nav";
+import { ListingBadges } from "@/features/drawer/Drawer";
 
 export function DomainsView() {
   const w = useWorld();
@@ -23,7 +24,8 @@ export function DomainsView() {
   if (DF.sort === "new") l.sort((a, b) => b.id.localeCompare(a.id, undefined, { numeric: true }));
   if (DF.sort === "offers") l.sort((a, b) => offersOf(b.id, offers).length - offersOf(a.id, offers).length);
   if (DF.sort === "near") {
-    const dist = (o: { lat: number; lng: number }) => Math.hypot(o.lat - me.lat, o.lng - me.lng);
+    const at = me ?? { lat: 30, lng: 10 };
+    const dist = (o: { lat: number; lng: number }) => Math.hypot(o.lat - at.lat, o.lng - at.lng);
     l.sort((a, b) => dist(a.owner) - dist(b.owner));
   }
 
@@ -67,6 +69,7 @@ export function DomainsView() {
               <button key={d.id} className="rcard p-4" onClick={() => open(d.id)}>
                 <div className="k">
                   <b>{d.category}</b>
+                  <ListingBadges d={d} />
                   {auctionOf(d.id) && <span className="auct">{endsIn(d.id)}</span>}
                   <span style={{ marginLeft: "auto" }}>{d.status === "make-offer" ? "make offer" : "listed"}</span>
                 </div>
