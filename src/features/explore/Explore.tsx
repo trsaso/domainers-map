@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { mapController } from "@/lib/map-controller";
 import { useApp, useWorld } from "@/store/app-store";
 import { Seg } from "@/features/common/ui";
@@ -9,6 +9,7 @@ import { Drawer } from "@/features/drawer/Drawer";
 import { demandOptions, demandPoints, type DemandQuery } from "@/lib/demand";
 import { DemandPanel } from "./DemandPanel";
 import { filterItems } from "./filter";
+import { HoverCard } from "./HoverCard";
 import { ListView } from "./ListView";
 import type { MapViewState } from "./MapView";
 import { Sidebar } from "./Sidebar";
@@ -25,7 +26,7 @@ export function Explore({ active }: { active: boolean }) {
   const mode = useApp((s) => s.mode);
   const sideOpen = useApp((s) => s.sideOpen);
   const selectedId = useApp((s) => s.selectedId);
-  const previewId = useApp((s) => s.previewId);
+  const listHidden = useApp((s) => s.listHidden);
   const set = useApp((s) => s.set);
   const closeDrawer = useApp((s) => s.closeDrawer);
   const [view, setView] = useState<MapViewState | null>(null);
@@ -35,7 +36,7 @@ export function Explore({ active }: { active: boolean }) {
 
   const list = useMemo(() => filterItems(w.items, F, view?.bounds ?? null), [w.items, F, view]);
   const selected = selectedId ? w.byId[selectedId] ?? null : null;
-  const shown = previewId ? w.byId[previewId] ?? null : selected;
+  const host = useRef<HTMLElement>(null);
   const countryView = (view?.z ?? 2) <= 3;
 
   useEffect(() => {
@@ -54,8 +55,9 @@ export function Explore({ active }: { active: boolean }) {
 
   return (
     <section
-      className={`view explore ${active ? "on" : ""} layout-${layout} drawer-${drawer} ${selected ? "open" : ""} ${sideOpen ? "side-open" : ""}`}
+      className={`view explore ${active ? "on" : ""} layout-${layout} drawer-${drawer} ${selected ? "open" : ""} ${sideOpen ? "side-open" : ""} ${selected && listHidden ? "list-hidden" : ""}`}
       aria-hidden={!active}
+      ref={host}
     >
       <Sidebar list={list} />
       <div className="mapwrap">
@@ -75,7 +77,7 @@ export function Explore({ active }: { active: boolean }) {
             </button>
           </span>
         </div>
-        {demandQ && demand && mode === "map" && !shown && <DemandPanel q={demandQ} points={demand} onChange={setDemandQ} />}
+        {demandQ && demand && mode === "map" && !selected && <DemandPanel q={demandQ} points={demand} onChange={setDemandQ} />}
         {!(countryView && !selected) && mode === "map" && (
           <div className="legend">
             <span><i className="pin" />Investor</span>
@@ -91,8 +93,14 @@ export function Explore({ active }: { active: boolean }) {
           Show list
         </button>
         <ListView list={list} on={mode === "list"} />
-        {shown && <Drawer item={shown} preview={shown.id !== selectedId} />}
+        {selected && listHidden && (
+          <button className="list-tab" onClick={() => set("listHidden", false)} title="Show the results list">
+            ☰ List <span className="muted">· {list.length}</span>
+          </button>
+        )}
+        {selected && <Drawer item={selected} />}
       </div>
+      <HoverCard host={host} />
     </section>
   );
 }

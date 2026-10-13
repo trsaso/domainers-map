@@ -122,7 +122,11 @@ export function Sidebar({ list }: { list: Item[] }) {
               className="rcard"
               aria-selected={selectedId === i.id}
               onClick={() => select(i.id, true)}
-              onMouseEnter={() => canHover() && hoverEnter(i.id)}
+              onMouseEnter={(e) => {
+                if (!canHover()) return;
+                const r = e.currentTarget.getBoundingClientRect();
+                hoverEnter(i.id, r.right, r.top + r.height / 2);
+              }}
               onMouseLeave={() => hoverLeave()}
             >
               <div className="k">
